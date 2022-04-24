@@ -1,8 +1,13 @@
 package com.android.quotediary;
 
+import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.Html;
+
+import java.text.DateFormatSymbols;
+import java.util.Calendar;
+import java.util.Date;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
@@ -15,6 +20,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.databinding.BindingAdapter;
 
+import com.android.quotediary.models.Dairy;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -67,7 +73,23 @@ public class DataBindingAdapter {
             });
         }
     }
-
+    @SuppressLint("SetTextI18n")
+    @BindingAdapter("month")
+    public static void month(TextView textView, Dairy.My_Date date){
+        Calendar calendar = Calendar.getInstance();
+        DateFormatSymbols symbols = DateFormatSymbols.getInstance();
+        Log.i("Month",""+calendar);
+        calendar.set(Calendar.DAY_OF_YEAR,date.getDay_year());
+        textView.setText(" "+symbols.getMonths()[calendar.get(Calendar.MONTH)].substring(0,3));
+    }
+    @SuppressLint("SetTextI18n")
+    @BindingAdapter("day")
+    public static void day(TextView textView, Dairy.My_Date date){
+        Calendar calendar = Calendar.getInstance();
+        Log.i("Month",""+calendar);
+        calendar.set(Calendar.DAY_OF_YEAR,date.getDay_year());
+        textView.setText(calendar.get(Calendar.DAY_OF_MONTH)+"");
+    }
 
 
 
