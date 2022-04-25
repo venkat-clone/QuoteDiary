@@ -2,17 +2,27 @@ package com.android.quotediary.ui.home;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.TransitionDrawable;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import android.os.Bundle;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +32,8 @@ import com.android.quotediary.models.Dairy;
 
 import org.xmlpull.v1.XmlPullParser;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHolder> {
@@ -73,6 +85,9 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         DairyItemBinding dairyItemBinding;
+        float PText=0;
+        float PDate=25;
+        DairyItemBinding Expanded ;
         CountDownTimer countDownTimer ;
         public ViewHolder(@NonNull DairyItemBinding itemView) {
             super(itemView.getRoot());
@@ -84,31 +99,30 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
 
 
             if(!exand){
-                /**
-                 *  Expand hear
-                 */
                 // for text
-                ValueAnimator dateAnimator = ValueAnimator.ofFloat(25, 52);
+                ValueAnimator dateAnimator = ValueAnimator.ofFloat(PDate, 52);
                 dateAnimator.setDuration(1000);
                 dateAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        float animatedValue = (float) valueAnimator.getAnimatedValue();
-                        dairyItemBinding.dateText.setTextSize(animatedValue);
+                        PDate = (float) valueAnimator.getAnimatedValue();
+                        dairyItemBinding.dateText.setTextSize(PDate);
+                        Log.i("Value-DI",""+PDate);
                     }
                 });
                 // for textInput
-                ValueAnimator textInputAnimator = ValueAnimator.ofFloat(0,20);
+                ValueAnimator textInputAnimator = ValueAnimator.ofFloat(PText,20);
                 textInputAnimator.setDuration(1000);
                 textInputAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        float animatedValue = (float) valueAnimator.getAnimatedValue();
-                        dairyItemBinding.content.setTextSize(animatedValue);
+                        PText = (float) valueAnimator.getAnimatedValue();
+                        dairyItemBinding.content.setTextSize(PText);
+                        Log.i("Value-TI",""+PText);
                     }
                 });
-
-
+                TypedValue typedValue = new TypedValue();
+                Resources.Theme theme = context.getTheme();
 
                 // trigger all at same time
                 textInputAnimator.start();
@@ -120,24 +134,26 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
             else {
                 // compress hear
 // for text
-                ValueAnimator dateAnimator = ValueAnimator.ofFloat(52, 24);
+                ValueAnimator dateAnimator = ValueAnimator.ofFloat(PDate, 24);
                 dateAnimator.setDuration(1000);
                 dateAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        float animatedValue = (float) valueAnimator.getAnimatedValue();
-                        dairyItemBinding.dateText.setTextSize(animatedValue);
+                        PDate = (float) valueAnimator.getAnimatedValue();
+                        dairyItemBinding.dateText.setTextSize(PDate);
+                        Log.i("Value-DD",""+PDate);
                     }
                 });
                 // for textInput
-                ValueAnimator textInputAnimator = ValueAnimator.ofFloat(20,0);
+                ValueAnimator textInputAnimator = ValueAnimator.ofFloat(PText,0);
                 textInputAnimator.setDuration(1000);
                 textInputAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                        float animatedValue = (float) valueAnimator.getAnimatedValue();
-                        dairyItemBinding.content.setTextSize(animatedValue);
-                        if(animatedValue==0.0f)
+                        PText = (float) valueAnimator.getAnimatedValue();
+                        Log.i("Value-TD",""+valueAnimator.getAnimatedValue());
+                        dairyItemBinding.content.setTextSize(PText);
+                        if(PText==0.0f)
                             dairyItemBinding.setExpand(false);
 
                     }

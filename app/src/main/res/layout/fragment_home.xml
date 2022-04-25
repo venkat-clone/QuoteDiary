@@ -13,8 +13,8 @@
         android:layout_height="match_parent"
         tools:context=".ui.home.HomeFragment"
         android:layout_margin="10dp"
-        android:background="@color/white"
-        android:foreground="@drawable/bottom_start_sharp_bg">
+
+        android:background="@drawable/bottom_start_sharp_bg">
 
         <androidx.recyclerview.widget.RecyclerView
             android:lineSpacingExtra="20dp"
