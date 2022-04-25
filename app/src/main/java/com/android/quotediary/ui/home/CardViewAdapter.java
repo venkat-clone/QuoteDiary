@@ -155,6 +155,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
 
 
 //            Log.i("dairy","happening");
+
 //            int m = !exand?android.R.anim.fade_in:android.R.anim.fade_out;
 //            Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
 //
