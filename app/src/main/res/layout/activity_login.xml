@@ -101,7 +101,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="15dp"
                         app:endIconMode="password_toggle"
-                        app:endIconCheckable="true"
                         android:tag="password"
                         android:hint="Password">
 

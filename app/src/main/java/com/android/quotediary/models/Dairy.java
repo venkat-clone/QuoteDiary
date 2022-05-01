@@ -1,5 +1,8 @@
 package com.android.quotediary.models;
 
+import android.content.Context;
+
+import java.util.Calendar;
 import java.util.Date;
 
 public class Dairy {
@@ -15,6 +18,11 @@ public class Dairy {
         this.my_date = my_date;
     }
 
+    public Dairy(My_Date my_date) {
+        this.my_date = my_date;
+    }
+    public Dairy() {
+    }
 
     public static class My_Date{
         int year = 2020;
@@ -22,6 +30,14 @@ public class Dairy {
         int minni_day = 1212212;
 
         public My_Date() {
+        }
+        public My_Date(int year,int day_year){
+            this.year = year;
+            this.day_year = day_year;
+        }
+        public static My_Date getToday(){
+            Calendar calendar = Calendar.getInstance();
+            return new My_Date(calendar.get(Calendar.YEAR),calendar.get(Calendar.DAY_OF_YEAR));
         }
         public int getMinni_day() {
             return minni_day;
@@ -53,8 +69,7 @@ public class Dairy {
         this.date = date;
     }
 
-    public Dairy() {
-    }
+
 
     public String getContent() {
         return content;
