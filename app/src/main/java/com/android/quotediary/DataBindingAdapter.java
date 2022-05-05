@@ -75,19 +75,19 @@ public class DataBindingAdapter {
     }
     @SuppressLint("SetTextI18n")
     @BindingAdapter("month")
-    public static void month(TextView textView, Dairy.My_Date date){
+    public static void month(TextView textView, Dairy date){
         Calendar calendar = Calendar.getInstance();
         DateFormatSymbols symbols = DateFormatSymbols.getInstance();
         Log.i("Month",""+calendar);
-        calendar.set(Calendar.DAY_OF_YEAR,date.getDay_year());
+        calendar.set(Calendar.DAY_OF_YEAR,date.getDay());
         textView.setText(" "+symbols.getMonths()[calendar.get(Calendar.MONTH)].substring(0,3));
     }
     @SuppressLint("SetTextI18n")
     @BindingAdapter("day")
-    public static void day(TextView textView, Dairy.My_Date date){
+    public static void day(TextView textView, Dairy date){
         Calendar calendar = Calendar.getInstance();
         Log.i("Month",""+calendar);
-        calendar.set(Calendar.DAY_OF_YEAR,date.getDay_year());
+        calendar.set(Calendar.DAY_OF_YEAR,date.getDay());
         textView.setText(calendar.get(Calendar.DAY_OF_MONTH)+"");
     }
 

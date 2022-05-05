@@ -8,12 +8,8 @@
             name="dairy"
             type="com.android.quotediary.models.Dairy" />
         <variable
-            name="clickhandler"
+            name="holder"
             type="com.android.quotediary.ui.home.CardViewAdapter.ViewHolder" />
-        <variable
-            name="expand"
-            type="boolean"
-            />
         <import type="android.view.View"/>
     </data>
 <RelativeLayout
@@ -29,7 +25,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:onClick="@{(view)->clickhandler.Show(view,expand)}"
+        android:onClick="@{holder::onClicked}"
         app:cardCornerRadius="25dp"
         app:cardElevation="2dp">
 
@@ -42,7 +38,7 @@
 
             <TextView
                 android:id="@+id/dateText"
-                day="@{dairy.my_date}"
+                day="@{dairy}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -54,7 +50,7 @@
 
             <TextView
                 android:id="@+id/month"
-                month="@{dairy.my_date}"
+                month="@{dairy}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
@@ -72,6 +68,9 @@
                 android:focusable="false"
                 android:layout_marginHorizontal="10dp"
                 android:id="@+id/content"
+                tools:textSize="20dp"
+                android:text="@={dairy.content}"
+                android:onTextChanged="@{holder.onTextChanged}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#00000000"
@@ -83,6 +82,20 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/dateText"
                 tools:text="@string/app_name" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save"
+                android:visibility="gone"
+                android:onClick="@{(view)->holder.save(view,dairy)}"
+                android:id="@+id/save"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/content"
+                app:layout_constraintTop_toTopOf="@+id/content"
+                app:layout_constraintVertical_bias="1.0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

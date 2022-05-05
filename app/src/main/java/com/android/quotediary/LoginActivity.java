@@ -17,13 +17,13 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.quotediary.Reterofit.Repository.LoginRepository;
-import com.android.quotediary.databinding.ActivityLoginBindingImpl;
+import com.android.quotediary.databinding.ActivityLoginBinding;
 import com.android.quotediary.models.UserModel;
 
 import retrofit2.Retrofit;
 
 public class LoginActivity extends AppCompatActivity {
-    ActivityLoginBindingImpl binding;
+    ActivityLoginBinding binding;
     public static LoginActivityViewModel viewModel;
     public UserModel.Login userModel ;
     LoginRepository loginRepository;

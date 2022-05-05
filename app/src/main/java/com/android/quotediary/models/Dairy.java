@@ -4,86 +4,105 @@ import android.content.Context;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class Dairy {
-    String content = "Today is sooo";
-    Date date = new Date();
-    My_Date my_date = new My_Date();
+    public boolean isToday = false;
+    String Content = "";
+    int Year=0;
+    int Day =0;
 
-    public My_Date getMy_date() {
-        return my_date;
+    /**
+     *
+     * @param content
+     * @param year
+     * @param day
+     */
+    public Dairy(String content, int year, int day) {
+        Content = content;
+        Year = year;
+        Day = day;
+        isToday = isToday(this);
     }
 
-    public void setMy_date(My_Date my_date) {
-        this.my_date = my_date;
-    }
 
-    public Dairy(My_Date my_date) {
-        this.my_date = my_date;
-    }
+
     public Dairy() {
     }
 
-    public static class My_Date{
-        int year = 2020;
-        int day_year = 120;
-        int minni_day = 1212212;
-
-        public My_Date() {
-        }
-        public My_Date(int year,int day_year){
-            this.year = year;
-            this.day_year = day_year;
-        }
-        public static My_Date getToday(){
-            Calendar calendar = Calendar.getInstance();
-            return new My_Date(calendar.get(Calendar.YEAR),calendar.get(Calendar.DAY_OF_YEAR));
-        }
-        public int getMinni_day() {
-            return minni_day;
-        }
-
-        public void setMinni_day(int minni_day) {
-            this.minni_day = minni_day;
-        }
-
-        public int getYear() {
-            return year;
-        }
-
-        public void setYear(int year) {
-            this.year = year;
-        }
-
-        public int getDay_year() {
-            return day_year;
-        }
-
-        public void setDay_year(int day_year) {
-            this.day_year = day_year;
-        }
-    }
-
-    public Dairy(String content, Date date) {
-        this.content = content;
-        this.date = date;
-    }
-
-
-
     public String getContent() {
-        return content;
+        return Content;
     }
 
     public void setContent(String content) {
-        this.content = content;
+        Content = content;
     }
 
-    public Date getDate() {
-        return date;
+    public int getYear() {
+        return Year;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setYear(int year) {
+        Year = year;
     }
+
+    public int getDay() {
+        return Day;
+    }
+
+    public void setDay(int day) {
+        Day = day;
+    }
+    //
+//    public static My_Date getToday(){
+//        Calendar calendar = Calendar.getInstance();
+//        return new My_Date(calendar.get(Calendar.YEAR),calendar.get(Calendar.DAY_OF_YEAR));
+//    }
+    public static boolean isToday(Dairy dairy){
+        Calendar calendar = Calendar.getInstance();
+        return dairy.Day==calendar.get(Calendar.DAY_OF_YEAR) && dairy.Year==calendar.get(Calendar.YEAR);
+    }
+    public static Dairy getToday(){
+        Calendar calendar = Calendar.getInstance();
+        return new Dairy("",calendar.get(Calendar.YEAR),calendar.get(Calendar.DAY_OF_YEAR));
+    }
+
+    //
+
+    public static class Year {
+        int Year=0;
+        List<Dairy> DairyS;
+        public boolean selected;
+
+        public Year(int year, List<Dairy> dairyS) {
+            Year = year;
+            DairyS = dairyS;
+        }
+
+        public Year() {
+        }
+        public Year(int year){
+            this.Year = year;
+        }
+
+        public int getYear() {
+            return Year;
+        }
+
+        public void setYear(int year) {
+            Year = year;
+        }
+
+        public List<Dairy> getDairyS() {
+            return DairyS;
+        }
+
+        public void setDairyS(List<Dairy> dairyS) {
+            DairyS = dairyS;
+        }
+    }
+
+
+
+
 }
