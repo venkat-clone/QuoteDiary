@@ -131,7 +131,7 @@ public class DataBindingAdapter {
     }
     @BindingAdapter("Setfont")
     public static void Setfont(TextView tv,String Setfont){
-        Typeface typeface = Typeface.createFromAsset(tv.getResources().getAssets(), "fonts"+ Setfont+".ttf");
+        Typeface typeface = Typeface.createFromAsset(tv.getResources().getAssets(), "fonts/"+ Setfont+".ttf");
 //        Typeface typeface = tv.getResources()(R.font.font0001);
         tv.setTypeface(typeface);
     }

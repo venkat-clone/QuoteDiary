@@ -23,19 +23,23 @@
             android:layout_height="wrap_content">
 
             <TextView
-                Setfont="@{`font0001`}"
+                Setfont="@{model.id}"
                 android:id="@+id/Aa"
                 android:textColor="@color/black"
-                android:textSize="52sp"
+                android:textSize="64sp"
                 android:text="Aa"
+                android:gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="80dp" />
 
             <TextView
                 android:id="@+id/name"
                 android:textColor="?attr/colorOnSecondary"
                 android:textStyle="bold|italic"
-                tools:text="Nothing"
+                tools:text="Nothing nonthni hbjhwsb h"
+                android:ems="5"
+                android:maxLength="10"
+                android:gravity="center"
                 android:text="@{model.name}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

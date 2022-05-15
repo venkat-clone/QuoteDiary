@@ -39,15 +39,9 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
         holder.setSelected();
         holder.binding.setModel(list.get(position));
         holder.fontStyle = list.get(position);
-//        holder.setState();
 
     }
 
-//    public class ClickHandler{
-//        public void onClick(View view){
-//            notifyItemChanged(selectedPosition);
-//        }
-//    }
 
 
 
@@ -84,27 +78,16 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
         }
 
 
-        public void setState(){
-            if(selectedPosition==getAdapterPosition()){
-                binding.Aa.setTextColor(context.getResources().getColor(R.color.purple_200));
-                binding.name.setTextColor(context.getResources().getColor(R.color.purple_200));
-                fontStyle.setSelected(true);
-            }
-            else {
-                fontStyle.setSelected(false);
-                binding.Aa.invalidate();
-                binding.name.invalidate();
-            }
-        }
-
 
         @Override
         public void onClick(View view) {
+
             binding.Aa.setTextColor(context.getResources().getColor(R.color.purple_200));
             binding.name.setTextColor(context.getResources().getColor(R.color.purple_200));
             if(selectedPosition!=getAdapterPosition()){
                 notifyItemChanged(selectedPosition);
                 selectedPosition = getAdapterPosition();
+                quotesViewModel.selected.setValue(fontStyle);
             }
         }
     }
