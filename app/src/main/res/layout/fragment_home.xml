@@ -4,18 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
-            name="model"
-            type="com.android.quotediary.ui.home.HomeViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:background="?android:attr/colorBackground"
+        android:nestedScrollingEnabled="true"
         android:layout_height="match_parent">
+
+
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:nestedScrollingEnabled="true"
+            android:clipChildren="true"
             android:fitsSystemWindows="true"
             >
 
@@ -40,12 +44,15 @@
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 >
                 <androidx.recyclerview.widget.RecyclerView
+                    android:layout_gravity="center_horizontal|center_vertical"
                     android:clipChildren="true"
                     app:stackFromEnd="true"
                     android:layout_margin="20dp"
@@ -66,15 +73,21 @@
             </LinearLayout>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
             </com.google.android.material.appbar.AppBarLayout>
-            <LinearLayout
+
+            <RelativeLayout
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
+                android:clipChildren="true"
+                android:layout_margin="5dp"
                 android:background="@drawable/bottom_start_sharp_bg"
-
                 >
-
+                <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                    android:id="@+id/refresh_layout"
+                    android:layout_width="match_parent"
+                    android:clipChildren="true"
+                    android:layout_height="wrap_content"
+                    >
         <androidx.recyclerview.widget.RecyclerView
             android:lineSpacingExtra="20dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -90,7 +103,8 @@
             android:layout_height="wrap_content" />
 
 
-                </LinearLayout>
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                </RelativeLayout>
 
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>

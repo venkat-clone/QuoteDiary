@@ -22,7 +22,7 @@ public abstract class DairyDataBase extends RoomDatabase {
         if (INSTANCE == null) {
             synchronized (DairyDataBase.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                    INSTANCE = Room.databaseBuilder(context,
                             DairyDataBase.class, "Dairy_DB")
                             .build();
                 }

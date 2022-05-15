@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.quotediary.Helpers.Room.DairyEntity;
 import com.android.quotediary.databinding.FragmentHomeBinding;
@@ -27,12 +28,22 @@ public class HomeFragment extends Fragment {
     HomeViewModel mViewModel;
     CardViewAdapter cardViewAdapter;
     YearAdapter yearAdapter;
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+    }
+
+    public HomeFragment(){
+
+    }
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
         mViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        binding = FragmentHomeBinding.inflate(inflater, container, false);
         binding.setLifecycleOwner(this);
-        binding.setModel(mViewModel);
+//        binding.setModel(mViewModel);
+        mViewModel.SetupDb(getContext().getApplicationContext());
 
         init();
         Observers();
@@ -62,10 +73,10 @@ public class HomeFragment extends Fragment {
         mViewModel.getYearsFromDb().observe(getViewLifecycleOwner(), new Observer<List<Dairy.Year>>() {
             @Override
             public void onChanged(List<Dairy.Year> years) {
-                if(years!=null){
+                if(binding.refreshLayout.isRefreshing()) binding.refreshLayout.setRefreshing(false);
+                    if(years!=null){
                     yearAdapter.Update(years);
                     mViewModel.selectedYear.postValue(years.get(years.size()-1));
-
                     mViewModel.oldPos = years.size()-1;
                     mViewModel.newPos = mViewModel.oldPos;
                 }
@@ -83,6 +94,22 @@ public class HomeFragment extends Fragment {
                 if(dairy!=null){
                     mViewModel.updateDairy();
                 }
+            }
+        });
+        mViewModel.DbResponse.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if(!aBoolean){
+                   cardViewAdapter.notifyItemChanged(cardViewAdapter.selectedPosition);
+                   mViewModel.DbResponse.postValue(null);
+                }
+            }
+        });
+
+        binding.refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mViewModel.getDairyList();
             }
         });
 

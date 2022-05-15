@@ -51,6 +51,8 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull CardViewAdapter.ViewHolder holder, int position) {
         holder.dairyItemBinding.setDairy(dairies.get(position));
+//        if(null!=homeViewModel.DbResponse.getValue() &&
+//        !homeViewModel.DbResponse.getValue() && dairies.get(position).isToday && selectedPosition>-1) holder.onTextChanged("",1,1,1);
 //        if(dairies.get(position).isToday) holder.dairyItemBinding.content.
 //        if(!dairies.get(position).getContent().isEmpty()) holder.dairyItemBinding.content.setText(dairies.get(position).getContent());
         setAnimation(holder.dairyItemBinding.cardView,position);
@@ -168,10 +170,11 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
             view.setVisibility(View.GONE);
             homeViewModel.uploadToday.postValue(dairy);
         }
-
+        // i length , i1 number of chenges i1 = initial len i2= final
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            if( dairyItemBinding.getDairy().isToday && selectedPosition!=-1)
+            if( dairyItemBinding.getDairy().isToday && selectedPosition!=-1 && dairyItemBinding.content.isEnabled())
                 dairyItemBinding.save.setVisibility(View.VISIBLE);
+            else dairyItemBinding.save.setVisibility(View.GONE);
         }
 
         public void ExpandAnimation(){
@@ -255,6 +258,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
                 public void onAnimationUpdate(ValueAnimator valueAnimator) {
                     float PText = (float) valueAnimator.getAnimatedValue();
                     dairyItemBinding.content.setTextSize(PText);
+                    dairyItemBinding.content.setEnabled(false);
                 }
             });
             cardBGAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {

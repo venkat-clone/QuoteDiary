@@ -3,6 +3,8 @@
     package="com.android.quotediary">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
+
 
     <application
         android:allowBackup="true"
@@ -12,9 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuoteDiary">
         <activity
-            android:name=".MainActivity2"
-            android:exported="false"
-            android:label="@string/title_activity_main2" />
+            android:name=".ui.WallPaperActivity"
+            android:exported="false" />
         <activity
             android:name=".RegisterUserActivity"
             android:exported="false" />
@@ -31,9 +32,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:windowSoftInputMode="adjustNothing"
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="adjustNothing">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -42,6 +43,10 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

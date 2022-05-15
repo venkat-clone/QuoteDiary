@@ -12,12 +12,12 @@
 
     <item
         android:icon="@drawable/wallpaper_icon"
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_wallpaper"
 
         android:title="WallPaper" />
     <item
         android:icon="@drawable/quote_icon"
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_quotes"
         android:title="Quotes" />
 
 </menu>

@@ -19,7 +19,7 @@ public class DairyRepository {
     private LiveData<List<DairyEntity>> liveDairyList;
 
 
-    public DairyRepository(Application application){
+    public DairyRepository(Context application){
 
         DairyDataBase db = DairyDataBase.getDatabase(application);
         dairyDao = db.DairyDao();
@@ -69,6 +69,7 @@ public class DairyRepository {
                 }
                 if(today.getYear()==year.getYear() && !found) {
                     dairies.add(today);
+                    found = true;
                     try{
                         dairyDao.insert(new DairyEntity(today.getDay(),today.getYear(), today.getContent()));
                     }catch (Exception e){
@@ -100,11 +101,12 @@ public class DairyRepository {
         });
     }
 
-    public void update(Dairy dairy){
+    public void update(Dairy dairy, MutableLiveData<Boolean> dbResponse){
         DairyDataBase.databaseWriteExecutor.execute(()->{
 
             try{
                 dairyDao.updateDairy(dairy.getYear(),dairy.getDay(), dairy.getContent());
+                dbResponse.setValue(true);
             }catch (Exception e){
                 e.printStackTrace();
             }
