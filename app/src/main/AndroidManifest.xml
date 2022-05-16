@@ -62,10 +62,15 @@
         <receiver
             android:name=".ui.TextAppWidget"
             android:exported="true">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.ui.action." />-->
+<!--            </intent-filter>-->
             <intent-filter>
-                <action android:name="android.ui.action.TEXTWEIDGET_UPDATE" />
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
-
+            <intent-filter>
+                <action android:name="ACTION_AUTO_UPDATE_WIDGET" />
+            </intent-filter>
             <meta-data
                 android:name="android.appwidget.prvider"
                 android:resource="@xml/text_app_widget" />
