@@ -135,8 +135,12 @@ public class DataBindingAdapter {
 //        Typeface typeface = tv.getResources()(R.font.font0001);
         tv.setTypeface(typeface);
     }
-
-
+    @BindingAdapter("SharedTypeFace")
+    public static void setTypeFace(TextView tv,String SharedTypeFace){
+        String id = sharedPreferenceServices.getSharedFile(tv.getContext());
+        Typeface typeface = Typeface.createFromAsset(tv.getResources().getAssets(), "fonts/"+ id+".ttf");
+        tv.setTypeface(typeface);
+    }
 
 
 }

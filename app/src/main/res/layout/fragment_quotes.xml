@@ -10,6 +10,7 @@
         <variable
             name="ClickHandler"
             type="com.android.quotediary.ui.quotes.QuotesFragment.ClickHandler" />
+        <import type="android.view.View" />
 
     </data>
 
@@ -30,6 +31,8 @@
                 android:layout_height="match_parent">
 
             <androidx.cardview.widget.CardView
+                android:visibility="@{viewmdel.selectedQuote.equals(``)?View.GONE:View.VISIBLE}"
+                tools:visibility="gone"
                 app:cardCornerRadius="25dp"
                 app:cardElevation="3dp"
                 android:layout_margin="15dp"
@@ -77,7 +80,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text=" Do Not Run Life "
+                        android:text="@{viewmdel.selectedQuote}"
                         android:padding="30dp"
                         android:lines="2"
                         android:textColor="@color/black"
@@ -92,8 +95,6 @@
                         android:id="@+id/slider"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
-                        android:text="text size"
-                        android:tooltipText="Hello World"
                         android:valueFrom="12.0"
                         android:valueTo="64.0"
                         app:layout_constraintBottom_toTopOf="@+id/fontRecycler"
@@ -118,9 +119,10 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/quote_recycler"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:spanCount="2"
-                    tools:listitem="@layout/font_item"
+                    tools:listitem="@layout/quote_list_item"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </LinearLayout>

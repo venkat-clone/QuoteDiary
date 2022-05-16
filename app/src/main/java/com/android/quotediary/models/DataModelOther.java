@@ -31,14 +31,13 @@ public class DataModelOther {
     }
 
     public static class FontStyle{
-        String id = "01";
+        String id = "font0001";
         String name = "venkey";
-        boolean Selected = false;
-        public FontStyle(String id ){this.id = id;};
-        public FontStyle(String id, String name, boolean selected) {
+
+        public FontStyle(){};
+        public FontStyle(String id, String name) {
             this.id = id;
             this.name = name;
-            Selected = selected;
         }
 
         public String getId() {
@@ -57,15 +56,41 @@ public class DataModelOther {
             this.name = name;
         }
 
-        public boolean isSelected() {
-            return Selected;
-        }
-
-        public void setSelected(boolean selected) {
-            Selected = selected;
-        }
     }
 
+    public static class finalQuote{
+        String quote="";
+        String StyleID="";
+        float TextSize=32;
+
+        public finalQuote(){
+
+        }
+
+        public String getQuote() {
+            return quote;
+        }
+
+        public void setQuote(String quote) {
+            this.quote = quote;
+        }
+
+        public String getStyleID() {
+            return StyleID;
+        }
+
+        public void setStyleID(String styleID) {
+            StyleID = styleID;
+        }
+
+        public float getTextSize() {
+            return TextSize;
+        }
+
+        public void setTextSize(float textSize) {
+            TextSize = textSize;
+        }
+    }
 
     class Search{
 

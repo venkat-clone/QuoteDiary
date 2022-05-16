@@ -8,12 +8,19 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.android.quotediary.R;
+import com.android.quotediary.models.DataModelOther;
+import com.android.quotediary.sharedPreferenceServices;
 
 import java.util.Calendar;
 
@@ -26,12 +33,15 @@ public class TextAppWidget1 extends AppWidgetProvider {
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.text_app_widget1);
-        Calendar calendar  = Calendar.getInstance();
-        views.setTextViewText(R.id.appwidget_text, calendar.getTime().getMinutes()+"");
 
+        DataModelOther.finalQuote quote = sharedPreferenceServices.getTextStyle(context);
+
+//        views.setTextViewText(R.id.appwidget_text, quote.getQuote()+"");
+//        views.setTextViewTextSize(appWidgetId,10,quote.getTextSize());
+        views.setImageViewBitmap(R.id.myimage, buildUpdate("quote.getQuote()", context));
+//        appWidgetManager.getAppWidgetInfo(appWidgetId).
         Toast.makeText(context,"UpdateAppWidget",Toast.LENGTH_SHORT).show();
 //        appWidgetManager.getAppWidgetInfo(appWidgetId).updatePeriodMillis = (int) (calendar.getTimeInMillis());
 //        Calendar calendar  = Calendar.getInstance();
@@ -39,12 +49,12 @@ public class TextAppWidget1 extends AppWidgetProvider {
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
-        final Intent intent = new Intent(context, TextAppWidget1.class);
-        final PendingIntent pending = PendingIntent.getService(context, 0, intent, 0);
-        final AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarm.cancel(pending);
-        long interval = 1000*60;
-        alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(),interval, pending);
+//        final Intent intent = new Intent(context, TextAppWidget1.class);
+//        final PendingIntent pending = PendingIntent.getService(context, 0, intent, 0);
+//        final AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+//        alarm.cancel(pending);
+//        long interval = 1000*60;
+//        alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(),interval, pending);
         appWidgetManager.partiallyUpdateAppWidget(appWidgetId, views);
 
     }
@@ -78,16 +88,16 @@ public class TextAppWidget1 extends AppWidgetProvider {
 //        alarmMgr.setInexactRepeating(AlarmManager.RTC, 0, 1000, alarmIntent);
 
 
-        final Intent intent = new Intent(context, TextAppWidget1.class);
-        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        int[] ids = AppWidgetManager.getInstance(context)
-                .getAppWidgetIds(new ComponentName(context, TextAppWidget1.class));
-            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
-        final PendingIntent pending = PendingIntent.getService(context, 0, intent, 0);
-        final AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarm.cancel(pending);
-        long interval = 1000*60;
-        alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(),interval, pending);
+//        final Intent intent = new Intent(context, TextAppWidget1.class);
+//        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+//        int[] ids = AppWidgetManager.getInstance(context)
+//                .getAppWidgetIds(new ComponentName(context, TextAppWidget1.class));
+//            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+//        final PendingIntent pending = PendingIntent.getService(context, 0, intent, 0);
+//        final AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+//        alarm.cancel(pending);
+//        long interval = 1000*60;
+//        alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(),interval, pending);
     
         // Enter relevant functionality for when the first widget is created
     }
@@ -115,7 +125,22 @@ public class TextAppWidget1 extends AppWidgetProvider {
         Toast.makeText(context,"onDeleted",Toast.LENGTH_SHORT).show();
         super.onDeleted(context, appWidgetIds);
     }
-
+    public static Bitmap buildUpdate(String text, Context context)
+    {
+        Bitmap myBitmap = Bitmap.createBitmap(500, 100, Bitmap.Config.ARGB_4444);
+        Canvas myCanvas = new Canvas(myBitmap);
+        Paint paint = new Paint();
+        Typeface mytypeface = Typeface.createFromAsset(context.getAssets(),"fonts/font0002.ttf");
+//        paint.setAntiAlias(true);
+//        paint.setSubpixelText(true);
+        paint.setTypeface(mytypeface);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(Color.WHITE);
+        paint.setTextSize(65);
+        paint.setTextAlign(Paint.Align.CENTER);
+        myCanvas.drawText(text, 250, 50, paint);
+        return myBitmap;
+    }
     @Override
     public void onRestored(Context context, int[] oldWidgetIds, int[] newWidgetIds) {
         Toast.makeText(context,"onRestored",Toast.LENGTH_SHORT).show();
