@@ -1,6 +1,8 @@
 package com.android.quotediary.ui.quotes;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,8 +64,11 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
 
         public void setSelected(){
             if(selectedPosition ==-1){
-                binding.Aa.setTextColor(context.getResources().getColor(R.color.black));
-                binding.name.setTextColor(context.getResources().getColor(R.color.black));
+                TypedValue typedValue = new TypedValue();
+                Resources.Theme theme = context.getTheme();
+                theme.resolveAttribute(R.attr.SolidTextColor,typedValue,true);
+                binding.Aa.setTextColor(typedValue.data);
+                binding.name.setTextColor(typedValue.data);
 
             }else {
                 if(selectedPosition==getAdapterPosition()){
@@ -71,8 +76,11 @@ public class FontAdapter extends RecyclerView.Adapter<FontAdapter.ViewHolder> {
                     binding.name.setTextColor(context.getResources().getColor(R.color.purple_200));
                 }
                 else {
-                    binding.Aa.setTextColor(context.getResources().getColor(R.color.black));
-                    binding.name.setTextColor(context.getResources().getColor(R.color.black));
+                    TypedValue typedValue = new TypedValue();
+                    Resources.Theme theme = context.getTheme();
+                    theme.resolveAttribute(R.attr.SolidTextColor,typedValue,true);
+                    binding.Aa.setTextColor(typedValue.data);
+                    binding.name.setTextColor(typedValue.data);
                 }
             }
         }

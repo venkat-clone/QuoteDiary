@@ -32,6 +32,8 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import kotlin.random.Random;
+
 //@Bindin
 public class DataBindingAdapter {
 
@@ -135,11 +137,47 @@ public class DataBindingAdapter {
 //        Typeface typeface = tv.getResources()(R.font.font0001);
         tv.setTypeface(typeface);
     }
-    @BindingAdapter("SharedTypeFace")
-    public static void setTypeFace(TextView tv,String SharedTypeFace){
-        String id = sharedPreferenceServices.getSharedFile(tv.getContext());
-        Typeface typeface = Typeface.createFromAsset(tv.getResources().getAssets(), "fonts/"+ id+".ttf");
-        tv.setTypeface(typeface);
+//    @BindingAdapter("SharedTypeFace")
+//    public static void setTypeFace(TextView tv,String SharedTypeFace){
+//        String id = sharedPreferenceServices.getSharedFile(tv.getContext());
+//        Typeface typeface = Typeface.createFromAsset(tv.getResources().getAssets(), "fonts/"+ id+".ttf");
+//        tv.setTypeface(typeface);
+//    }
+
+    @BindingAdapter("setRandom")
+    public static void setRandom(View view,String setRandom){
+        int i = Random.Default.nextInt(7);
+        int color =0;
+
+                switch (i){
+//            case 0:
+//                color = view.getResources().getColor(R.color.Moss);
+//                break;
+            case 1:
+                color = view.getResources().getColor(R.color.Artichoke);
+                break;
+            case 2:
+                color = view.getResources().getColor(R.color.Stone);
+                break;
+            case  3:
+                color = view.getResources().getColor(R.color.Indigo);
+                break;
+            case 4:
+                color = view.getResources().getColor(R.color.Berry);
+                break;
+            case  5:
+                color = view.getResources().getColor(R.color.Amber);
+                break;
+            case 6:
+                color = view.getResources().getColor(R.color.Olive);
+                break;
+            case 0:
+            case 7:
+            default:
+                color = view.getResources().getColor(R.color.Moss);
+                break;
+        }
+        view.setBackgroundColor(color);
     }
 
 

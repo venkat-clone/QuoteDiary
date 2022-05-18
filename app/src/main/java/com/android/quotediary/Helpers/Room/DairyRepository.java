@@ -12,6 +12,7 @@ import com.android.quotediary.models.Dairy;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class DairyRepository {
@@ -68,28 +69,32 @@ public class DairyRepository {
                     if(today.getDay()==dairy.getDay() && today.getYear()==dairy.getYear()) found=true;
                 }
                 if(today.getYear()==year.getYear() && !found) {
+                    today.unsaved = true;
                     dairies.add(today);
                     found = true;
-                    try{
-                        dairyDao.insert(new DairyEntity(today.getDay(),today.getYear(), today.getContent()));
-                    }catch (Exception e){
-
-                    }
+//                    try{
+//                        dairyDao.insert(new DairyEntity(today.getDay(),today.getYear(), today.getContent()));
+//                    }catch (Exception e){
+//
+//                    }
                 }
+                Collections.reverse(dairies);
                 yearList.add(new Dairy.Year(year.getYear(), dairies));
             }
             if(!found){
                 today.isToday = true;
+                today.unsaved = true;
                 List<Dairy> tod = new ArrayList<>();tod.add(today);
                 Dairy.Year yr = new Dairy.Year(today.getYear(),tod);yr.selected=true;
                 yearList.add(yr);
                 try{
                     dairyDao.insert(new DairyEntity.Year(today.getYear()));
-                    dairyDao.insert(new DairyEntity(today.getDay(),today.getYear(), today.getContent()));
+//                    dairyDao.insert(new DairyEntity(today.getDay(),today.getYear(), today.getContent()));
                 }catch (Exception e){
-
+//
                 }
             }
+            Collections.reverse(yearList);
             yearlist.postValue(yearList);
         });
     }
@@ -105,7 +110,8 @@ public class DairyRepository {
         DairyDataBase.databaseWriteExecutor.execute(()->{
 
             try{
-                dairyDao.updateDairy(dairy.getYear(),dairy.getDay(), dairy.getContent());
+                if(dairy.unsaved) dairyDao.insert(new DairyEntity(dairy.getDay(),dairy.getYear(), dairy.getContent()));
+                else dairyDao.updateDairy(dairy.getYear(),dairy.getDay(), dairy.getContent());
                 dbResponse.setValue(true);
             }catch (Exception e){
                 e.printStackTrace();

@@ -58,39 +58,39 @@ public class DataModelOther {
 
     }
 
-    public static class finalQuote{
-        String quote="";
-        String StyleID="";
-        float TextSize=32;
-
-        public finalQuote(){
-
-        }
-
-        public String getQuote() {
-            return quote;
-        }
-
-        public void setQuote(String quote) {
-            this.quote = quote;
-        }
-
-        public String getStyleID() {
-            return StyleID;
-        }
-
-        public void setStyleID(String styleID) {
-            StyleID = styleID;
-        }
-
-        public float getTextSize() {
-            return TextSize;
-        }
-
-        public void setTextSize(float textSize) {
-            TextSize = textSize;
-        }
-    }
+//    public static class finalQuote{
+//        String quote="";
+//        String StyleID="";
+//        float TextSize=32;
+//
+//        public finalQuote(){
+//
+//        }
+//
+//        public String getQuote() {
+//            return quote;
+//        }
+//
+//        public void setQuote(String quote) {
+//            this.quote = quote;
+//        }
+//
+//        public String getStyleID() {
+//            return StyleID;
+//        }
+//
+//        public void setStyleID(String styleID) {
+//            StyleID = styleID;
+//        }
+//
+//        public float getTextSize() {
+//            return TextSize;
+//        }
+//
+//        public void setTextSize(float textSize) {
+//            TextSize = textSize;
+//        }
+//    }
 
     class Search{
 

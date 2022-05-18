@@ -16,25 +16,91 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.WallPaperActivity">
+
         <ImageView
-            android:layout_marginTop="32dp"
-            android:layout_marginStart="10dp"
+            android:elevation="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:layout_height="300dp"
+            DeviceHeightRation="@{0.7}"
+            android:src="@drawable/grad_0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+
+
+        <ImageView
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="15dp"
             android:elevation="10dp"
-            android:onClick="@{ClickHandler.onBackPressed}"
+            android:onClick="@{ClickHandler::onBackPressed}"
+            app:tint="@color/white"
             android:id="@+id/backArrow"
             android:src="@drawable/ic_baseline_arrow_back_ios_new_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_width="42dp"
-            android:layout_height="42dp"/>
+            android:layout_width="24dp"
+            android:layout_height="24dp"/>
+        <ImageView
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="25dp"
+            android:elevation="10dp"
+            android:onClick="@{ClickHandler::shareWallpaper}"
+            android:tint="@color/white"
+            android:src="@drawable/share"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="22dp"
+            android:layout_height="22dp"/>
 
         <ImageView
+            android:src="@color/white"
             android:id="@+id/image"
             android:scaleType="fitXY"
             SetWallpaperImage="@{model.url}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:gravity="center"
+            android:layout_margin="10dp"
+            >
+            <TextView
+                android:background="@drawable/buttom_rectangle_bg"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:text="Apply"
+                android:textColor="@color/white"
+                android:onClick="@{ClickHandler::ApplyWallpaper}"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:onClick="@{ClickHandler::DownloadWallPaper}"
+                android:background="@drawable/buttom_rectangle_bg"
+                android:layout_margin="10dp"
+                android:textColor="@color/white"
+                android:padding="10dp"
+                android:layout_weight="1"
+                android:text="Download"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:visibility="gone"
             android:layout_margin="30dp"
             app:elevation="10dp"
             android:elevation="10dp"

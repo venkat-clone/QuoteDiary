@@ -11,7 +11,7 @@ public class Dairy {
     String Content = "";
     int Year=0;
     int Day =0;
-
+    public boolean unsaved;
     /**
      *
      * @param content
@@ -22,6 +22,7 @@ public class Dairy {
         Content = content;
         Year = year;
         Day = day;
+        unsaved = false;
         isToday = isToday(this);
     }
 

@@ -87,6 +87,8 @@
                         >
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:maxLines="1"
+                            android:maxEms="40"
                             android:text="@={Usermodel.Email}"
                             android:inputType="textEmailAddress"
                             android:layout_width="match_parent"

@@ -13,7 +13,8 @@
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardElevation="20dp"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="#6DFFFFFF"
         android:layout_margin="5dp">
 
         <LinearLayout
@@ -25,19 +26,21 @@
             <TextView
                 Setfont="@{model.id}"
                 android:id="@+id/Aa"
-                android:textColor="@color/black"
-                android:textSize="64sp"
+                android:textColor="?attr/SolidTextColor"
+                android:textSize="32sp"
                 android:text="Aa"
+                android:layout_gravity="center"
                 android:gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="80dp" />
+                android:layout_height="50dp" />
 
             <TextView
                 android:id="@+id/name"
-                android:textColor="?attr/colorOnSecondary"
+                android:textColor="?attr/SolidTextColor"
                 android:textStyle="bold|italic"
                 tools:text="Nothing nonthni hbjhwsb h"
                 android:ems="5"
+                android:textSize="10sp"
                 android:maxLength="10"
                 android:gravity="center"
                 android:text="@{model.name}"

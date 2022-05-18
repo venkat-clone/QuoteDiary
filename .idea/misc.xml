@@ -4,35 +4,47 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.196875" />
-        <entry key="..\:/Users/shravan/AndroidStudioProjects/QuoteDiary/app/src/main/res/layout/activity_login.xml" value="0.22" />
-        <entry key="..\:/Users/shravan/AndroidStudioProjects/QuoteDiary/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/Users/shravan/AndroidStudioProjects/QuoteDiary/app/src/main/res/layout/activity_main2.xml" value="0.18" />
+        <entry key="../../.gradle/caches/transforms-3/914116008979e77bc79da871871e9f31/transformed/appcompat-1.4.1/res/drawable/abc_textfield_search_material.xml" value="0.233" />
+        <entry key="../../.gradle/caches/transforms-3/914116008979e77bc79da871871e9f31/transformed/appcompat-1.4.1/res/layout/abc_search_view.xml" value="0.18597691321077384" />
         <entry key="..\:/Users/shravan/AndroidStudioProjects/QuoteDiary/app/src/main/res/layout/dairy_item.xml" value="0.25" />
-        <entry key="..\:/Users/shravan/AndroidStudioProjects/QuoteDiary/app/src/main/res/layout/font_item.xml" value="0.18" />
-        <entry key="..\:/Users/shravan/AndroidStudioProjects/QuoteDiary/app/src/main/res/layout/fragment_home.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/shravan/AndroidStudioProjects/QuoteDiary/app/src/main/res/layout/fragment_quotes.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/shravan/AndroidStudioProjects/QuoteDiary/app/src/main/res/layout/quote_list_item.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/shravan/AndroidStudioProjects/QuoteDiary/app/src/main/res/layout/text_app_widget1.xml" value="0.25" />
-        <entry key="..\:/Users/shravan/AndroidStudioProjects/QuoteDiary/app/src/main/res/layout/text_widget.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/shravan/AndroidStudioProjects/QuoteDiary/app/src/main/res/xml/text_app_widget.xml" value="0.20416666666666666" />
         <entry key="app/src/main/res/drawable/bottom_start_sharp_bg.xml" value="0.309" />
+        <entry key="app/src/main/res/drawable/buttom_rectangle_bg.xml" value="0.2625" />
+        <entry key="app/src/main/res/drawable/card_bg_color.xml" value="0.245" />
+        <entry key="app/src/main/res/drawable/grad_0.xml" value="0.2625" />
         <entry key="app/src/main/res/drawable/hide_and_show_eye_icon.xml" value="0.2865" />
         <entry key="app/src/main/res/drawable/home_icon_ic.xml" value="0.129" />
+        <entry key="app/src/main/res/drawable/ic_baseline_arrow_back_ios_new_24.xml" value="0.1925" />
         <entry key="app/src/main/res/drawable/ic_baseline_not_interested_24.xml" value="0.2865" />
         <entry key="app/src/main/res/drawable/ic_baseline_remove_red_eye_24.xml" value="0.2865" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.247" />
         <entry key="app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.1775" />
         <entry key="app/src/main/res/drawable/login_background.xml" value="0.2865" />
+        <entry key="app/src/main/res/drawable/query_background.xml" value="0.233" />
+        <entry key="app/src/main/res/drawable/rounded_background.xml" value="0.247" />
+        <entry key="app/src/main/res/drawable/search_background.xml" value="0.1775" />
+        <entry key="app/src/main/res/drawable/set_wallpaper_icon.xml" value="0.247" />
         <entry key="app/src/main/res/drawable/top_left_sharp_corner.xml" value="0.309" />
         <entry key="app/src/main/res/drawable/top_rounded_cornors.xml" value="0.1775" />
+        <entry key="app/src/main/res/drawable/year_background.xml" value="0.247" />
+        <entry key="app/src/main/res/drawable/year_item.xml" value="0.247" />
+        <entry key="app/src/main/res/font/advent_pro_light.xml" value="0.21077383497221033" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main2.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_register_user.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.34322916666666664" />
+        <entry key="app/src/main/res/layout/activity_wall_paper.xml" value="0.25" />
         <entry key="app/src/main/res/layout/dairy_item.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/font_item.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.14450619923044036" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.2817443351859769" />
+        <entry key="app/src/main/res/layout/fragment_quotes.xml" value="0.2817443351859769" />
+        <entry key="app/src/main/res/layout/fragment_wallpaper.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/quote_list_item.xml" value="0.2817443351859769" />
+        <entry key="app/src/main/res/layout/text_app_widget1.xml" value="0.2817443351859769" />
+        <entry key="app/src/main/res/layout/wallpaper_list_item.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/year_item.xml" value="0.2817443351859769" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
         <entry key="app/src/main/res/menu/bottom_navigation_menu.xml" value="0.1" />
       </map>
@@ -47,7 +59,7 @@
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
-        <option name="scale" value="0.33" />
+        <option name="scale" value="0.2214621633176571" />
       </ProjectState>
     </option>
   </component>

@@ -26,11 +26,40 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.wallpaper.WallpaperFragment">
+        <androidx.appcompat.widget.SearchView
+            app:layout_constraintTop_toTopOf="parent"
+
+            android:gravity="center"
+            app:queryHint="wallpaper"
+            android:layout_margin="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:defaultQueryHint="Search"
+            android:elevation="10dp"
+            android:id="@+id/search_layout"
+            android:text="search"
+            />
+
+        <TextView
+            android:visibility="gone"
+            android:elevation="0dp"
+            android:layout_marginStart="36dp"
+            android:text="@string/app_name"
+            android:padding="5dp"
+            android:textSize="24sp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/search_layout"
+            app:layout_constraintEnd_toEndOf="@+id/search_layout"
+            app:layout_constraintStart_toStartOf="@+id/search_layout"
+            app:layout_constraintTop_toTopOf="@+id/search_layout" />
+
         <androidx.recyclerview.widget.RecyclerView
+            app:layout_constraintTop_toBottomOf="@id/search_layout"
             android:layout_margin="10dp"
             android:id="@+id/recycler_wallpaper"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="3"
             tools:listitem="@layout/wallpaper_list_item"

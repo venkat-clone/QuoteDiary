@@ -9,6 +9,8 @@ import android.widget.AbsListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
+import androidx.databinding.adapters.SearchViewBindingAdapter;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -87,6 +89,21 @@ public class WallpaperFragment extends Fragment {
     }
 
     void Observers(){
+
+        binding.searchLayout.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+
+
         mViewModel.getSelectedWall().observe(getViewLifecycleOwner(), new Observer<DataModelOther.Wallpaper>() {
             @Override
             public void onChanged(DataModelOther.Wallpaper wallpaper) {

@@ -2,10 +2,12 @@ package com.android.quotediary.ui.quotes;
 
 import static com.android.quotediary.DataBindingAdapter.Setfont;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.WallpaperManager;
 import android.appwidget.AppWidgetHost;
 import android.appwidget.AppWidgetHostView;
 import android.appwidget.AppWidgetManager;
@@ -13,16 +15,21 @@ import android.appwidget.AppWidgetProviderInfo;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -37,8 +44,13 @@ import com.google.android.material.slider.Slider;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.security.Permission;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -50,7 +62,9 @@ public class QuotesFragment extends Fragment {
     QuotesViewModel mViewModel;
     FontAdapter fontAdapter;
     public List<DataModelOther.FontStyle> fontStyleList;
-    public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
+    public boolean isEmpty = true;
+
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(this).get(QuotesViewModel.class);
         binding = FragmentQuotesBinding.inflate(inflater, container, false);
         binding.setLifecycleOwner(this);
@@ -63,31 +77,31 @@ public class QuotesFragment extends Fragment {
     }
 
 
-    void init(){
+    void init() {
         List<String> lIst = new ArrayList<>();
-        lIst.add("Hay NO 1");
+        lIst.add("Hello World 123456789A1234");
         lIst.add("Hay NO 2");
         lIst.add("hay NO 3");
         lIst.add("hay NO 4");
-        QuotesAdapter quotesAdapter = new QuotesAdapter(getContext(),lIst,mViewModel);
+        QuotesAdapter quotesAdapter = new QuotesAdapter(getContext(), lIst, mViewModel);
         binding.quoteRecycler.setAdapter(quotesAdapter);
         binding.slider.addOnChangeListener(new Slider.OnChangeListener() {
-                        @SuppressLint("RestrictedApi")
-                        @Override
-                        public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
-                            binding.selectedQuote.setTextSize(value);
-                            mViewModel.textSize.setValue(value);
-                        }
+            @SuppressLint("RestrictedApi")
+            @Override
+            public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
+                binding.selectedQuote.setTextSize(value);
+                mViewModel.textSize.setValue(value);
+            }
         });
     }
 
 
-    void Observers(){
+    void Observers() {
         mViewModel.selected.observe(getViewLifecycleOwner(), new Observer<DataModelOther.FontStyle>() {
             @Override
             public void onChanged(DataModelOther.FontStyle fontStyle) {
-                if(fontStyle!=null){
-                    Typeface typeface = Typeface.createFromAsset(getResources().getAssets(), "fonts/"+ fontStyle.getId()+".ttf");
+                if (fontStyle != null) {
+                    Typeface typeface = Typeface.createFromAsset(getResources().getAssets(), "fonts/" + fontStyle.getId() + ".ttf");
                     binding.selectedQuote.setTypeface(typeface);
                 }
             }
@@ -95,14 +109,27 @@ public class QuotesFragment extends Fragment {
         mViewModel.getSelectedQuote().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
-                if(s!=null){
-
-                    if(fontAdapter==null) {
+                if (s != null) {
+                    if(isEmpty) {
+                        Animation animation = AnimationUtils.loadAnimation(requireContext(),R.anim.top_to_bottom);
+                        binding.cardlayout.startAnimation(animation);
+                        isEmpty = false;
+                    }
+                    isEmpty = s.equals("");
+                    if (fontAdapter == null) {
                         fontStyleList = new ArrayList<>();
                         get_fonts();
                         fontAdapter = new FontAdapter(fontStyleList, getContext(), mViewModel);
                         binding.fontRecycler.setAdapter(fontAdapter);
+
                     }
+                    WallpaperManager wallpaperManager = WallpaperManager.getInstance(requireContext());
+                    if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(requireActivity(),new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},120);
+                        return;
+                    }
+                    binding.maincard.setBackground(wallpaperManager.getDrawable().getCurrent());
+
                     binding.slider.setValue(50);
                 }
             }
@@ -137,34 +164,57 @@ public class QuotesFragment extends Fragment {
 
     public class ClickHandler{
 
+        public void White(View view){
+            binding.selectedQuote.setTextColor(requireContext().getResources().getColor(R.color.white));
+//            binding.selectedQuote.
+        }
+        public void Black(View view){
+            binding.selectedQuote.setTextColor(requireContext().getResources().getColor(R.color.black));
+        }
 
 
         public void onNext(View view){
 //            Toast.makeText(context,"onUpdate",Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(requireActivity(), TextAppWidget1.class);
-            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-//            // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
-//            // since it seems the onUpdate() is only fired on that:
-            int[] ids = AppWidgetManager.getInstance(requireActivity())
-                    .getAppWidgetIds(new ComponentName(requireActivity(), TextAppWidget1.class));
-            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
-            requireActivity().sendBroadcast(intent);
-//            RemoteViews views = new RemoteViews(requireActivity().getPackageName(), R.layout.text_app_widget1);
-//            Calendar calendar  = Calendar.getInstance();
-//            views.setTextViewText(R.id.appwidget_text, calendar.getTime().getMinutes()+"");
-//            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(requireActivity());
-//            appWidgetManager.updateAppWidget(ids, views);
-//            appWidgetManager.partiallyUpdateAppWidget(ids, views);
-//            getActivity().getSystemService()
+
+            binding.textlayout.setDrawingCacheEnabled(true);
+            Bitmap bitmap = Bitmap.createBitmap(binding.textlayout.getDrawingCache());
+
+            File f = new File(requireContext().getCacheDir(),"image.png");
+
+            try {
+                if(!f.exists())
+                    f.createNewFile();
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
+            byte[] bitmapdata = bos.toByteArray();
+            FileOutputStream fos  = new FileOutputStream(f);
+                fos.write(bitmapdata);
+                fos.flush();
+                fos.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+//            mViewModel.setQuoteData(requireContext());
+            mViewModel.updateQuotes(requireContext());
 
 
-            mViewModel.setQuoteData(requireContext());
+
+
+//            Intent intent = new Intent(requireActivity(), TextAppWidget1.class);
+//            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+////            // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
+////            // since it seems the onUpdate() is only fired on that:
+//            int[] ids = AppWidgetManager.getInstance(requireActivity())
+//                    .getAppWidgetIds(new ComponentName(requireActivity(), TextAppWidget1.class));
+//            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+//            requireActivity().sendBroadcast(intent);
+
+
+
             new AlertDialog.Builder(getContext())
                     .setTitle(R.string.app_name)
                     .setMessage("Add This Quote from Home Screen \n Home Screen > Widgets > Quote Dairy")
 
-                    // Specifying a listener allows you to take an action before dismissing the dialog.
-                    // The dialog is automatically dismissed when a dialog button is clicked.
                     .setPositiveButton("Go To Home Screen", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -176,13 +226,22 @@ public class QuotesFragment extends Fragment {
                     })
                     .setNegativeButton("Cancle",null)
 
-                    // A null listener allows the button to dismiss the dialog and take no further action.
                     .show();
 
 
 
 
         }
+
+        public void CloseSelected(View view){
+            Animation animation = AnimationUtils.loadAnimation(requireContext(),R.anim.bottom_to_top);
+            binding.cardlayout.startAnimation(animation);
+            mViewModel.selectedQuote.setValue("");
+            isEmpty = true;
+        }
+
+
+
     }
 
 
