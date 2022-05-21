@@ -148,7 +148,6 @@ public class DairyRepository {
                     dairyDao.insert(dairyEntity);
                 else
                     dairyDao.updateDairy(dairy.getYear(),dairy.getDay(), dairy.getContent());
-                dbResponse.setValue(true);
             }catch (Exception e){
                 e.printStackTrace();
             }

@@ -1,5 +1,7 @@
 package com.android.quotediary.ui.home;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +25,7 @@ public class HomeFragment extends Fragment {
     HomeViewModel mViewModel;
     CardViewAdapter cardViewAdapter;
     YearAdapter yearAdapter;
-
+    ProgressDialog progressDialog;
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
@@ -87,6 +89,9 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(Dairy.ServerDairy dairy) {
                 if(dairy!=null){
+                    progressDialog = new ProgressDialog(requireActivity());
+                    progressDialog.setMessage("Dairy is Uploading...");
+                    progressDialog.show();
                     mViewModel.updateDairy(requireContext(),dairy);
                     mViewModel.uploadToday.setValue(null);
                 }
@@ -99,6 +104,7 @@ public class HomeFragment extends Fragment {
                     mViewModel.updateLoacaly(serverDairy);
                     mViewModel.serverDairy.postValue(null);
                 }
+                if(progressDialog!=null) progressDialog.cancel();
             }
         });
         mViewModel.isSucessfull.observe(getViewLifecycleOwner(), new Observer<Boolean>() {

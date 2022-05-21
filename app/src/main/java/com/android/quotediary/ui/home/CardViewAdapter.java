@@ -84,9 +84,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
         }
     }
 
-    public void Merge(){
-//        if(ToClose!=-1)notifyItemChanged(ToClose);
-    }
+
 
     @Override
     public int getItemCount() {
@@ -171,7 +169,6 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
             homeViewModel.uploadToday.postValue(dairy);
 
         }
-        // i length , i1 number of chenges i1 = initial len i2= final
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             if( dairyItemBinding.getDairy().isToday && selectedPosition!=-1 && dairyItemBinding.content.isEnabled())
                 dairyItemBinding.save.setVisibility(View.VISIBLE);
