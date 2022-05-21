@@ -13,6 +13,7 @@
     <color name="black">#FF000000</color>
     <color name="black_19">#191919</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="shimmer_gray">#2FFFFFFF</color>
     <color name="blue_300">#00B9FF</color>
     <color name="purple_A400">#d500f9</color>
     <color name="purple_A100">#d500f9</color>

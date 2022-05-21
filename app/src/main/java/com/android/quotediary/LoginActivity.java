@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         userModel = new UserModel.Login();
         binding.setUsermodel(userModel);
         binding.setClickHandler(new ClickHandlers());
-
+        loginRepository.Login(new UserModel.Login("venkey@123","venkey1single@gmail.com"),viewModel.loginresponce);
         Observer();
     }
 

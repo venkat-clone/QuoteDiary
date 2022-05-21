@@ -17,10 +17,10 @@ public class DairyEntity {
     private int day;
 
 
-    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name="id_")
     @NonNull
-    private int id_;
+    @PrimaryKey
+    private String id_;
 
     @NonNull
     @ColumnInfo(name = "year")
@@ -41,6 +41,13 @@ public class DairyEntity {
      */
     public DairyEntity(int day, int year, @NonNull String content) {
         this.day = day;
+        this.year = year;
+        this.content = content;
+    }
+
+    public DairyEntity(int day, @NonNull String id_, int year, @NonNull String content) {
+        this.day = day;
+        this.id_ = id_;
         this.year = year;
         this.content = content;
     }
@@ -93,11 +100,11 @@ public class DairyEntity {
     public void setContent(@NonNull String content) {
         this.content = content;
     }
-    public int getId_() {
+    public String  getId_() {
         return id_;
     }
 
-    public void setId_(int id_) {
+    public void setId_(String id_) {
         this.id_ = id_;
     }
 

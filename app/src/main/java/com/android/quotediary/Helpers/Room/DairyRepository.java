@@ -59,17 +59,19 @@ public class DairyRepository {
         DairyDataBase.databaseWriteExecutor.execute(()->{
             List<DairyEntity.Year> years  = dairyDao.getYears();
             List<Dairy.Year> yearList = new ArrayList<>();
-            Dairy today = Dairy.getToday();
+            Dairy.ServerDairy today = Dairy.getToday();
             boolean found = false;
             for (DairyEntity.Year year: years) {
                 List<DairyEntity> DNList = dairyDao.getDairyS(year.getYear());
-                List<Dairy> dairies = new ArrayList<>();
+                List<Dairy.ServerDairy> dairies = new ArrayList<>();
                 for (DairyEntity dairy:DNList) {
-                    dairies.add(new Dairy(dairy.getContent(), dairy.getYear(), dairy.getDay()));
-                    if(today.getDay()==dairy.getDay() && today.getYear()==dairy.getYear()) found=true;
+                    if(today.getDay()==dairy.getDay() && today.getYear()==dairy.getYear()) { found = true; }
+                    dairies.add(new Dairy.ServerDairy(dairy.getId_(),dairy.getContent(), dairy.getYear(), dairy.getDay()));
+
                 }
                 if(today.getYear()==year.getYear() && !found) {
                     today.unsaved = true;
+                    today.isToday = true;
                     dairies.add(today);
                     found = true;
 //                    try{
@@ -84,7 +86,7 @@ public class DairyRepository {
             if(!found){
                 today.isToday = true;
                 today.unsaved = true;
-                List<Dairy> tod = new ArrayList<>();tod.add(today);
+                List<Dairy.ServerDairy> tod = new ArrayList<>();tod.add(today);
                 Dairy.Year yr = new Dairy.Year(today.getYear(),tod);yr.selected=true;
                 yearList.add(yr);
                 try{
@@ -106,12 +108,16 @@ public class DairyRepository {
         });
     }
 
-    public void update(Dairy dairy, MutableLiveData<Boolean> dbResponse){
+    public void update(Dairy.ServerDairy dairy, MutableLiveData<Boolean> dbResponse){
         DairyDataBase.databaseWriteExecutor.execute(()->{
 
             try{
-                if(dairy.unsaved) dairyDao.insert(new DairyEntity(dairy.getDay(),dairy.getYear(), dairy.getContent()));
-                else dairyDao.updateDairy(dairy.getYear(),dairy.getDay(), dairy.getContent());
+                DairyEntity dairyEntity = new DairyEntity(dairy.getDay(),dairy.getId(),dairy.getYear(), dairy.getContent());
+
+                if(dairy.unsaved)
+                    dairyDao.insert(dairyEntity);
+                else
+                    dairyDao.updateDairy(dairy.getYear(),dairy.getDay(), dairy.getContent());
                 dbResponse.setValue(true);
             }catch (Exception e){
                 e.printStackTrace();

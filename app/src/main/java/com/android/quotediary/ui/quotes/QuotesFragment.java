@@ -31,6 +31,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -63,7 +64,7 @@ public class QuotesFragment extends Fragment {
     FontAdapter fontAdapter;
     public List<DataModelOther.FontStyle> fontStyleList;
     public boolean isEmpty = true;
-
+    QuotesAdapter quotesAdapter;
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(this).get(QuotesViewModel.class);
         binding = FragmentQuotesBinding.inflate(inflater, container, false);
@@ -71,32 +72,34 @@ public class QuotesFragment extends Fragment {
         binding.setClickHandler(new ClickHandler());
         binding.setViewmdel(mViewModel);
 
-        Observers();
         init();
+        Observers();
         return binding.getRoot();
     }
 
 
     void init() {
-        List<String> lIst = new ArrayList<>();
-        lIst.add("Hello World 123456789A1234");
-        lIst.add("Hay NO 2");
-        lIst.add("hay NO 3");
-        lIst.add("hay NO 4");
-        QuotesAdapter quotesAdapter = new QuotesAdapter(getContext(), lIst, mViewModel);
+        mViewModel.getQuotes(requireContext());
+        quotesAdapter = new QuotesAdapter(getContext(), new ArrayList<>(), mViewModel);
         binding.quoteRecycler.setAdapter(quotesAdapter);
+
+    }
+
+
+    void Observers() {
+        mViewModel.serverResponce.observe(getViewLifecycleOwner(), new Observer<List<DataModelOther.Quote>>() {
+            @Override
+            public void onChanged(List<DataModelOther.Quote> quotes) {
+                if(quotes!=null) quotesAdapter.Update(quotes);
+            }
+        });
         binding.slider.addOnChangeListener(new Slider.OnChangeListener() {
-            @SuppressLint("RestrictedApi")
             @Override
             public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
                 binding.selectedQuote.setTextSize(value);
                 mViewModel.textSize.setValue(value);
             }
         });
-    }
-
-
-    void Observers() {
         mViewModel.selected.observe(getViewLifecycleOwner(), new Observer<DataModelOther.FontStyle>() {
             @Override
             public void onChanged(DataModelOther.FontStyle fontStyle) {
@@ -106,6 +109,14 @@ public class QuotesFragment extends Fragment {
                 }
             }
         });
+//        mViewModel.selectedpos.observe(getViewLifecycleOwner(), new Observer<Integer>() {
+//            @Override
+//            public void onChanged(Integer integer) {
+//                if(integer!=null){
+//                    if(integer>-1) binding.quoteRecycler.scrollToPosition(integer);
+//                }
+//            }
+//        });
         mViewModel.getSelectedQuote().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
@@ -129,7 +140,7 @@ public class QuotesFragment extends Fragment {
                         return;
                     }
                     binding.maincard.setBackground(wallpaperManager.getDrawable().getCurrent());
-
+                    if(mViewModel.selectedpos.getValue()!=null && mViewModel.selectedpos.getValue()>-1)binding.quoteRecycler.scrollToPosition(mViewModel.selectedpos.getValue());
                     binding.slider.setValue(50);
                 }
             }

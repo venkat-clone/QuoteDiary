@@ -24,7 +24,6 @@
             tools:src="@drawable/quote_icon"
             android:id="@+id/image"
             DeviceHeightRation="@{0.35}"
-            android:scaleType="matrix"
             SetWallpaperImage="@{model.url}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

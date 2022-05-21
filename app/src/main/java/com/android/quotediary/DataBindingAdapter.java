@@ -20,15 +20,20 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.BindingAdapter;
 
 import com.android.quotediary.Helpers.BaseClass;
 import com.android.quotediary.models.Dairy;
 import com.bumptech.glide.Glide;
+import com.facebook.shimmer.Shimmer;
+import com.facebook.shimmer.ShimmerDrawable;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -87,7 +92,7 @@ public class DataBindingAdapter {
     }
     @SuppressLint("SetTextI18n")
     @BindingAdapter("month")
-    public static void month(TextView textView, Dairy date){
+    public static void month(TextView textView, Dairy.ServerDairy date){
         Calendar calendar = Calendar.getInstance();
         DateFormatSymbols symbols = DateFormatSymbols.getInstance();
         Log.i("Month",""+calendar);
@@ -96,7 +101,7 @@ public class DataBindingAdapter {
     }
     @SuppressLint("SetTextI18n")
     @BindingAdapter("day")
-    public static void day(TextView textView, Dairy date){
+    public static void day(TextView textView, Dairy.ServerDairy date){
         Calendar calendar = Calendar.getInstance();
         Log.i("Month",""+calendar);
         calendar.set(Calendar.DAY_OF_YEAR,date.getDay());
@@ -106,9 +111,26 @@ public class DataBindingAdapter {
     @BindingAdapter("SetWallpaperImage")
     public static void SetWallpaperImage(ImageView imageView,String url){
         try {
+            Shimmer.ColorHighlightBuilder shimmerBuilder = new Shimmer.ColorHighlightBuilder()
+                    .setBaseColor(ContextCompat.getColor(imageView.getContext(), R.color.shimmer_gray))
+                    .setHighlightColor(ContextCompat.getColor(imageView.getContext(), R.color.shimmer_gray))
+                    .setDuration(1000)
+                    .setIntensity(0.1f)
+//                    .setDropoff(0.9f)
+                    .setBaseAlpha(0.9f)
+                    .setHighlightAlpha(0.7f);
+            Shimmer shimmer = shimmerBuilder.build();
+
+            ShimmerDrawable shimmerDrawable = new ShimmerDrawable();
+
+            shimmerDrawable.setShimmer(shimmer);
+
+
             Glide.with(imageView.getContext())
                     .load(url)
-                    .encodeQuality(40)
+                    .centerCrop()
+                    .placeholder(shimmerDrawable)
+                    .encodeQuality(10)
                     .into(imageView);
         }catch (Exception e){
             e.printStackTrace();

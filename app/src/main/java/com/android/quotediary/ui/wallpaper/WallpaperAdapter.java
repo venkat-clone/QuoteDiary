@@ -1,18 +1,22 @@
 package com.android.quotediary.ui.wallpaper;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.quotediary.R;
 import com.android.quotediary.databinding.WallpaperListItemBinding;
 import com.android.quotediary.models.DataModelOther;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class WallpaperAdapter extends RecyclerView.Adapter<WallpaperAdapter.ViewHolder> {
@@ -41,6 +45,24 @@ public class WallpaperAdapter extends RecyclerView.Adapter<WallpaperAdapter.View
             wallpaperViewModel.getSelectedWall().setValue(model);
         }
     }
+    @SuppressLint("NotifyDataSetChanged")
+    public void update(List<DataModelOther.Wallpaper> list) {
+
+        if(wallpapers.size()==0) {
+            wallpapers = list;
+            notifyItemRangeInserted(0, list.size());
+        }
+        else {
+            notifyItemRangeInserted(wallpapers.size(), list.size());
+            wallpapers.addAll(list);
+        }
+    }
+    public void initialize(){
+        int s = wallpapers.size();
+        wallpapers = new ArrayList<>();
+        notifyItemRangeRemoved(0,s);
+    }
+
 
     @Override
     public int getItemCount() {

@@ -58,6 +58,24 @@ public class DataModelOther {
 
     }
 
+    public static class Quote{
+        @SerializedName("quote")
+        @Expose
+        String quote;
+
+        public String getQuote() {
+            return quote;
+        }
+
+        public void setQuote(String quote) {
+            this.quote = quote;
+        }
+    }
+
+
+
+
+
 //    public static class finalQuote{
 //        String quote="";
 //        String StyleID="";

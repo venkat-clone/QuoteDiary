@@ -1,35 +1,33 @@
 package com.android.quotediary.ui.home;
 
-import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.android.quotediary.Helpers.Room.DairyEntity;
 import com.android.quotediary.Helpers.Room.DairyRepository;
+import com.android.quotediary.Reterofit.Repository.UserRepository;
 import com.android.quotediary.models.Dairy;
-import com.android.quotediary.models.DairyYear;
 
 import java.util.List;
 
 public class HomeViewModel extends ViewModel {
 
     public int newPos=0;
-    public MutableLiveData<Dairy> uploadToday;
-    private MutableLiveData<String> mText;
-    private MutableLiveData<CardViewAdapter.ViewHolder> Expanded;
+    public MutableLiveData<Dairy.ServerDairy> uploadToday;
+//    private MutableLiveData<CardViewAdapter.ViewHolder> Expanded;
     public MutableLiveData<Dairy.Year> selectedYear;
-    public MutableLiveData<Boolean> DbResponse;
+    public MutableLiveData<Boolean> isSucessfull;
     public int oldPos=0;
     MutableLiveData<List<Dairy.Year>> YearsFromDb;
+    MutableLiveData<Dairy.ServerDairy> serverDairy;
+    UserRepository userRepository ;
 
 
-
-    MutableLiveData<Dairy> selectedDairy;
+//    MutableLiveData<Dairy> selectedDairy;
 
     public MutableLiveData<YearAdapter.ViewHolder> selectedHolder;
 //    MutableLiveData<Dairy.My_Date> today;
@@ -41,14 +39,15 @@ public class HomeViewModel extends ViewModel {
     }
 
     public void init() {
-        mText = new MutableLiveData<>("This is Home Fragment");
-        Expanded = new MutableLiveData<>();
+//        Expanded = new MutableLiveData<>();
         selectedYear = new MutableLiveData<>();
 //        selectedHolder = new MutableLiveData<>();
         YearsFromDb = new MutableLiveData<>();
-        DbResponse = new MutableLiveData<>(true);
+        isSucessfull = new MutableLiveData<>(false);
+        userRepository = new UserRepository();
+        serverDairy = new MutableLiveData<>();
 //        today = new MutableLiveData<>(Dairy.My_Date.getToday());
-        selectedDairy = new MutableLiveData<>();
+//        selectedDairy = new MutableLiveData<>();
         uploadToday = new MutableLiveData<>();
 
     }
@@ -88,21 +87,13 @@ public class HomeViewModel extends ViewModel {
         DairyListLiveData = dairyListLiveData;
     }
 
-    public LiveData<String> getText() {
-        return mText;
-    }
-
-    public MutableLiveData<String> getmText() {
-        return mText;
-    }
-
-    public MutableLiveData<CardViewAdapter.ViewHolder> getExpanded() {
-        return Expanded;
-    }
-
-    public void setExpanded(MutableLiveData<CardViewAdapter.ViewHolder> expanded) {
-        Expanded = expanded;
-    }
+//    public MutableLiveData<CardViewAdapter.ViewHolder> getExpanded() {
+//        return Expanded;
+//    }
+//
+//    public void setExpanded(MutableLiveData<CardViewAdapter.ViewHolder> expanded) {
+//        Expanded = expanded;
+//    }
 
     public MutableLiveData<List<Dairy.Year>> getYearsFromDb() {
         return YearsFromDb;
@@ -120,15 +111,20 @@ public class HomeViewModel extends ViewModel {
 //        this.today = today;
 //    }
 
-    public MutableLiveData<Dairy> getSelectedDairy() {
-        return selectedDairy;
-    }
+//    public MutableLiveData<Dairy> getSelectedDairy() {
+//        return selectedDairy;
+//    }
+//
+//    public void setSelectedDairy(MutableLiveData<Dairy> selectedDairy) {
+//        this.selectedDairy = selectedDairy;
+//    }
 
-    public void setSelectedDairy(MutableLiveData<Dairy> selectedDairy) {
-        this.selectedDairy = selectedDairy;
+    public void updateDairy(Context context,Dairy.ServerDairy dairy) {
+//        repository.update(uploadToday.getValue(),DbResponse);
+        userRepository.update(context,dairy,serverDairy);
     }
+    public void updateLoacaly(Dairy.ServerDairy dairy){
+        repository.update(dairy, isSucessfull);
 
-    public void updateDairy() {
-        repository.update(uploadToday.getValue(),DbResponse);
     }
 }

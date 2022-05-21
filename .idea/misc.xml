@@ -25,6 +25,7 @@
         <entry key="app/src/main/res/drawable/set_wallpaper_icon.xml" value="0.247" />
         <entry key="app/src/main/res/drawable/top_left_sharp_corner.xml" value="0.309" />
         <entry key="app/src/main/res/drawable/top_rounded_cornors.xml" value="0.1775" />
+        <entry key="app/src/main/res/drawable/top_to_bottom_fading_background.xml" value="0.2625" />
         <entry key="app/src/main/res/drawable/year_background.xml" value="0.247" />
         <entry key="app/src/main/res/drawable/year_item.xml" value="0.247" />
         <entry key="app/src/main/res/font/advent_pro_light.xml" value="0.21077383497221033" />
@@ -39,8 +40,8 @@
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.14450619923044036" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.2817443351859769" />
-        <entry key="app/src/main/res/layout/fragment_quotes.xml" value="0.2817443351859769" />
-        <entry key="app/src/main/res/layout/fragment_wallpaper.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/fragment_quotes.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/fragment_wallpaper.xml" value="0.25" />
         <entry key="app/src/main/res/layout/quote_list_item.xml" value="0.2817443351859769" />
         <entry key="app/src/main/res/layout/text_app_widget1.xml" value="0.2817443351859769" />
         <entry key="app/src/main/res/layout/wallpaper_list_item.xml" value="0.25" />

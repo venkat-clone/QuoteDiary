@@ -6,7 +6,7 @@
     <data>
         <variable
             name="dairy"
-            type="com.android.quotediary.models.Dairy" />
+            type="com.android.quotediary.models.Dairy.ServerDairy" />
         <variable
             name="holder"
             type="com.android.quotediary.ui.home.CardViewAdapter.ViewHolder" />

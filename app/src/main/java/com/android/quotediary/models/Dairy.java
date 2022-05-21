@@ -2,6 +2,9 @@ package com.android.quotediary.models;
 
 import android.content.Context;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -63,19 +66,19 @@ public class Dairy {
         Calendar calendar = Calendar.getInstance();
         return dairy.Day==calendar.get(Calendar.DAY_OF_YEAR) && dairy.Year==calendar.get(Calendar.YEAR);
     }
-    public static Dairy getToday(){
+    public static Dairy.ServerDairy getToday(){
         Calendar calendar = Calendar.getInstance();
-        return new Dairy("",calendar.get(Calendar.YEAR),calendar.get(Calendar.DAY_OF_YEAR));
+        return new Dairy.ServerDairy("",calendar.get(Calendar.YEAR),calendar.get(Calendar.DAY_OF_YEAR));
     }
 
     //
 
     public static class Year {
         int Year=0;
-        List<Dairy> DairyS;
+        List<Dairy.ServerDairy> DairyS;
         public boolean selected;
 
-        public Year(int year, List<Dairy> dairyS) {
+        public Year(int year, List<Dairy.ServerDairy> dairyS) {
             Year = year;
             DairyS = dairyS;
         }
@@ -94,15 +97,85 @@ public class Dairy {
             Year = year;
         }
 
-        public List<Dairy> getDairyS() {
+        public List<Dairy.ServerDairy> getDairyS() {
             return DairyS;
         }
 
-        public void setDairyS(List<Dairy> dairyS) {
+        public void setDairyS(List<Dairy.ServerDairy> dairyS) {
             DairyS = dairyS;
         }
     }
 
+
+
+    public static class ServerDairy{
+        @SerializedName("_id")
+        @Expose
+        String id;
+        @SerializedName("content")
+        @Expose
+        String content;
+        @SerializedName("year")
+        @Expose
+        int year;
+        @SerializedName("day")
+        @Expose
+        int day;
+        public boolean isToday;
+        public boolean unsaved = false;
+
+        public static boolean isToday(Dairy.ServerDairy dairy){
+            Calendar calendar = Calendar.getInstance();
+            return dairy.day==calendar.get(Calendar.DAY_OF_YEAR) && dairy.year==calendar.get(Calendar.YEAR);
+        }
+
+        public ServerDairy(String id, String content, int year, int day) {
+            this.id = id;
+            this.content = content;
+            this.year = year;
+            this.day = day;
+            isToday = ServerDairy.isToday(this);
+        }
+
+        public ServerDairy(String content, int year, int day) {
+            this.content = content;
+            this.year = year;
+            this.day = day;
+            isToday = ServerDairy.isToday(this);
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
+
+        public int getYear() {
+            return year;
+        }
+
+        public void setYear(int year) {
+            this.year = year;
+        }
+
+        public int getDay() {
+            return day;
+        }
+
+        public void setDay(int day) {
+            this.day = day;
+        }
+    }
 
 
 

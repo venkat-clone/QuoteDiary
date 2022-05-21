@@ -16,22 +16,36 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.android.quotediary.R;
+import com.android.quotediary.Reterofit.Repository.UserRepository;
 import com.android.quotediary.models.DataModelOther;
 import com.android.quotediary.sharedPreferenceServices;
 import com.android.quotediary.ui.TextAppWidget1;
 
 import java.io.File;
+import java.util.List;
 
 public class QuotesViewModel extends AndroidViewModel {
     MutableLiveData<DataModelOther.FontStyle> selected;
     MutableLiveData<String> selectedQuote;
+    MutableLiveData<List<DataModelOther.Quote>> serverResponce;
     MutableLiveData<Float>  textSize;
+    UserRepository userRepository ;
+    MutableLiveData<Integer> selectedpos;
+    int Page =0;
     public QuotesViewModel(Application application) {
         super(application);
         selectedQuote = new MutableLiveData<>("");
         selected = new MutableLiveData<>(new DataModelOther.FontStyle());
         textSize = new MutableLiveData<Float>(32f);
+        serverResponce = new MutableLiveData<>();
+        userRepository = new UserRepository();
+        selectedpos  = new MutableLiveData<>(-1);
     }
+
+    public void getQuotes(Context context){
+        if(Page >=0) userRepository.getQuotes(context,serverResponce,++Page);
+    }
+
 
     public MutableLiveData<DataModelOther.FontStyle> getSelected() {
         return selected;

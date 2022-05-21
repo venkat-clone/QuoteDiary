@@ -29,6 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:animateLayoutChanges="true"
+                app:elevation="0dp"
                 app:liftOnScroll="false"
                 android:overScrollMode="always"
                 android:background="@color/transparent"
@@ -39,6 +40,7 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:overScrollMode="never"
             app:liftOnScroll="false"
+            app:elevation="0dp"
             android:fitsSystemWindows="true"
             android:layoutMode="clipBounds"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"

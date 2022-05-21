@@ -5,6 +5,9 @@
 
     <data>
         <variable
+            name="clickHandler"
+            type="com.android.quotediary.ui.wallpaper.WallpaperFragment.ClickHandler" />
+        <variable
             name="ViewModel"
             type="com.android.quotediary.ui.wallpaper.WallpaperViewModel" />
         <import type="android.view.View"/>
@@ -12,75 +15,137 @@
 
     <LinearLayout
         android:background="?android:attr/colorBackground"
-        android:nestedScrollingEnabled="true"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-<androidx.core.widget.NestedScrollView
-    android:background="@drawable/bottom_start_sharp_bg"
+
+<!--<androidx.core.widget.NestedScrollView-->
+<!--    android:background="@drawable/bottom_start_sharp_bg"-->
+<!--    android:id="@+id/nested"-->
+<!--    android:layout_margin="10dp"-->
+<!--    android:paddingVertical="10dp"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent">-->
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     android:layout_margin="10dp"
     android:paddingVertical="10dp"
+    android:background="@drawable/bottom_start_sharp_bg"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
+    <com.google.android.material.appbar.AppBarLayout
+        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:elevation="0dp"
+        android:animateLayoutChanges="true"
+        android:background="@color/transparent"
+        >
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:elevation="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+                    <androidx.appcompat.widget.SearchView
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:gravity="center"
+                        app:queryHint="wallpaper"
+                        android:layout_margin="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:defaultQueryHint="Search"
+                        android:id="@+id/search_layout"
+                        android:text="search"
+                        />
+            <androidx.core.widget.ContentLoadingProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_gravity="bottom"
+                />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
 
+    </com.google.android.material.appbar.AppBarLayout>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_height="match_parent"
-        tools:context=".ui.wallpaper.WallpaperFragment">
-        <androidx.appcompat.widget.SearchView
-            app:layout_constraintTop_toTopOf="parent"
+        android:nestedScrollingEnabled="true"
+        tools:context=".ui.wallpaper.WallpaperFragment"
+        android:orientation="vertical">
+<!--        <androidx.appcompat.widget.SearchView-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
 
-            android:gravity="center"
-            app:queryHint="wallpaper"
-            android:layout_margin="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:defaultQueryHint="Search"
-            android:elevation="10dp"
-            android:id="@+id/search_layout"
-            android:text="search"
-            />
+<!--            android:gravity="center"-->
+<!--            app:queryHint="wallpaper"-->
+<!--            android:layout_margin="5dp"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:defaultQueryHint="Search"-->
+<!--            android:elevation="10dp"-->
+<!--            android:id="@+id/search_layout"-->
+<!--            android:text="search"-->
+<!--            />-->
 
-        <TextView
-            android:visibility="gone"
-            android:elevation="0dp"
-            android:layout_marginStart="36dp"
-            android:text="@string/app_name"
-            android:padding="5dp"
-            android:textSize="24sp"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@+id/search_layout"
-            app:layout_constraintEnd_toEndOf="@+id/search_layout"
-            app:layout_constraintStart_toStartOf="@+id/search_layout"
-            app:layout_constraintTop_toTopOf="@+id/search_layout" />
+<!--        <TextView-->
+<!--            android:visibility="gone"-->
+<!--            android:elevation="0dp"-->
+<!--            android:layout_marginStart="36dp"-->
+<!--            android:text="@string/app_name"-->
+<!--            android:padding="5dp"-->
+<!--            android:textSize="24sp"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="0dp"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/search_layout"-->
+<!--            app:layout_constraintEnd_toEndOf="@+id/search_layout"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/search_layout"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/search_layout" />-->
 
         <androidx.recyclerview.widget.RecyclerView
-            app:layout_constraintTop_toBottomOf="@id/search_layout"
             android:layout_margin="10dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:nestedScrollingEnabled="true"
             android:id="@+id/recycler_wallpaper"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            tools:itemCount="25"
             app:spanCount="3"
             tools:listitem="@layout/wallpaper_list_item"
             />
 
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="7"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:textSize="15sp"
-            android:onClick=""
-            android:textAllCaps="false"
-            android:layout_margin="10dp"
-            android:text="LoadMore"
-            android:textColor="?attr/colorOnPrimary"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recycler_wallpaper" />
+<!--        <TextView-->
+<!--            android:background="@drawable/top_to_bottom_fading_background"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:paddingTop="20dp"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:gravity="center"-->
+<!--            android:text="Loading"-->
+<!--            android:layout_marginHorizontal="5dp"-->
+<!--            android:textSize="25sp"-->
+<!--            app:layout_constraintBottom_toBottomOf="@id/recycler_wallpaper"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--             />-->
+
+<!--        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton-->
+<!--            android:id="@+id/lodemore"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="10dp"-->
+<!--            android:layout_weight="7"-->
+<!--            android:gravity="center"-->
+<!--            android:onClick="@{clickHandler::LoadMore}"-->
+<!--            android:text="LoadMore"-->
+<!--            android:textAllCaps="false"-->
+<!--            android:textColor="?attr/colorOnPrimary"-->
+<!--            android:textSize="15sp"-->
+<!--            android:textStyle="bold"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/recycler_wallpaper"-->
+<!--            app:layout_constraintVertical_bias="1.0" />-->
 <!--        <TextView-->
 <!--            app:layout_constraintEnd_toEndOf="parent"-->
 <!--            app:layout_constraintStart_toStartOf="parent"-->
@@ -92,16 +157,19 @@
 <!--            android:textColor="@color/purple_200"-->
 <!--            android:background="@drawable/card_bg_color"-->
 <!--            />-->
-<!--        <ProgressBar-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--        <com.google.android.material.progressindicator.LinearProgressIndicator-->
+<!--            app:layout_constraintTop_toBottomOf="@id/recycler_wallpaper"-->
 <!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
 <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            />-->
-
+<!--            android:layout_gravity="bottom"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="3dp"/>-->
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <!--</androidx.core.widget.NestedScrollView>-->
 
     </LinearLayout>
 

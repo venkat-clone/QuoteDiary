@@ -1,22 +1,31 @@
 package com.android.quotediary.ui.wallpaper;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.widget.NestedScrollView;
 import androidx.databinding.adapters.SearchViewBindingAdapter;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.android.quotediary.MainActivity;
 import com.android.quotediary.databinding.FragmentWallpaperBinding;
 import com.android.quotediary.models.DataModelOther;
 import com.android.quotediary.ui.WallPaperActivity;
@@ -28,81 +37,79 @@ public class WallpaperFragment extends Fragment {
 
     private FragmentWallpaperBinding binding;
     WallpaperViewModel mViewModel;
-    int Current,Total,ScrolledOut;
+    WallpaperAdapter wallpaperAdapter;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         mViewModel =
                 new ViewModelProvider(this).get(WallpaperViewModel.class);
         binding = FragmentWallpaperBinding.inflate(inflater, container, false);
         binding.setLifecycleOwner(this);
-        List<DataModelOther.Wallpaper> wallpapers = new ArrayList<>();
-        wallpapers.add(new DataModelOther.Wallpaper("https://media.istockphoto.com/photos/abstract-digitally-generated-background-image-picture-id1314544146",640,740));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568160277762-0224a391b5a5",630,640));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568149788227-36c45e231c3c",640,840));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568158951631-e1f33137ad76",640,640));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1569887652102-59696fef1528",640,640));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568826069038-f3de1448e9a1",940,640));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568160277762-0224a391b5a5",680,1040));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568149788227-36c45e231c3c",640,640));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568158951631-e1f33137ad76",640,540));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1569887652102-59696fef1528",640,640));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568826069038-f3de1448e9a1",640,670));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568160277762-0224a391b5a5",540,640));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568149788227-36c45e231c3c",640,630));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568158951631-e1f33137ad76",670,640));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1569887652102-59696fef1528",640,740));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568826069038-f3de1448e9a1",630,780));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568160277762-0224a391b5a5",640,730));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568149788227-36c45e231c3c",740,760));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568158951631-e1f33137ad76",780,780));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1569887652102-59696fef1528",730,800));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568826069038-f3de1448e9a1",760,640));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568160277762-0224a391b5a5",780,940));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568149788227-36c45e231c3c",800,740));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568158951631-e1f33137ad76",640,640));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1569887652102-59696fef1528",940,740));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568826069038-f3de1448e9a1",740,780));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568160277762-0224a391b5a5",680,730));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568149788227-36c45e231c3c",940,760));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568158951631-e1f33137ad76",660,780));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1569887652102-59696fef1528",690,800));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568826069038-f3de1448e9a1",640,640));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568158951631-e1f33137ad76",780,780));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1569887652102-59696fef1528",730,800));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568826069038-f3de1448e9a1",760,640));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568160277762-0224a391b5a5",780,940));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568149788227-36c45e231c3c",800,740));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568158951631-e1f33137ad76",640,640));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568158951631-e1f33137ad76",780,780));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1569887652102-59696fef1528",730,800));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568826069038-f3de1448e9a1",760,640));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568160277762-0224a391b5a5",780,940));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568149788227-36c45e231c3c",800,740));
-        wallpapers.add(new DataModelOther.Wallpaper("https://images.unsplash.com/photo-1568158951631-e1f33137ad76",640,640));
 
-        WallpaperAdapter wallpaperAdapter = new WallpaperAdapter(getContext(),mViewModel,wallpapers);
+        wallpaperAdapter = new WallpaperAdapter(getContext(),mViewModel,new ArrayList<>());
         binding.recyclerWallpaper.setAdapter(wallpaperAdapter);
 
-        Observers();
 
+        mViewModel.CreateRepo(requireContext());
+        Observers();
+        binding.setClickHandler(new ClickHandler());
         return binding.getRoot();
     }
 
     void Observers(){
-
-        binding.searchLayout.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        binding.recyclerWallpaper.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                GridLayoutManager gridLayoutManager = (GridLayoutManager) binding.recyclerWallpaper.getLayoutManager();
+                if(gridLayoutManager.findLastVisibleItemPosition() == wallpaperAdapter.getItemCount()-1) {
+                    if(mViewModel.query.getValue()==null ){
+                        mViewModel.LoadMore();
+                    }
+                    else mViewModel.saerchWall();
+                }
+                super.onScrollStateChanged(recyclerView, newState);
             }
-
+        });
+        binding.searchLayout.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public boolean onClose() {
+                mViewModel.page =0;
+                mViewModel.query = new MutableLiveData<>();
+                mViewModel.LoadMore();
                 return false;
             }
         });
+        binding.searchLayout.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(binding.searchLayout.getWindowToken(), 0);
+                binding.searchLayout.clearFocus();
+                mViewModel.query.setValue(query);
+                mViewModel.page =0;
+                mViewModel.saerchWall();
+                wallpaperAdapter.initialize();
+                return true;
+            }
 
 
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(newText.isEmpty()) wallpaperAdapter.initialize();
+                return true;
+            }
+        });
+
+        mViewModel.wallpapers.observe(getViewLifecycleOwner(), new Observer<List<DataModelOther.Wallpaper>>() {
+            @Override
+            public void onChanged(List<DataModelOther.Wallpaper> wallpapers) {
+                if(wallpapers!=null && wallpapers.size()!=0){
+                    wallpaperAdapter.update(wallpapers);
+                }
+                else if(wallpapers!=null){
+                    mViewModel.page =-1;
+                }
+            }
+        });
 
         mViewModel.getSelectedWall().observe(getViewLifecycleOwner(), new Observer<DataModelOther.Wallpaper>() {
             @Override
@@ -118,8 +125,11 @@ public class WallpaperFragment extends Fragment {
 
 
     }
-
-
+    public class ClickHandler{
+        public void LoadMore(View view){
+            mViewModel.LoadMore();
+        }
+    }
 
     @Override
     public void onDestroyView() {

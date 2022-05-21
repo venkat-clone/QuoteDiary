@@ -27,7 +27,7 @@ import java.util.List;
 
 public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHolder> {
 
-    List<Dairy> dairies;
+    List<Dairy.ServerDairy> dairies;
     Context context;
     HomeViewModel homeViewModel;
     int clicked =-1;
@@ -35,7 +35,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
     private int lastPosition =-1;
     float InitalDate = 25,FinalDate = 52;
     float InitalText = 0,FinalText = 20;
-    public CardViewAdapter(List<Dairy> dairies, Context context,HomeViewModel homeViewModel) {
+    public CardViewAdapter(List<Dairy.ServerDairy> dairies, Context context,HomeViewModel homeViewModel) {
         this.dairies = dairies;
         this.context = context;
         this.homeViewModel = homeViewModel;
@@ -93,7 +93,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
         return dairies.size();
     }
 
-    public void Update(List<Dairy> dairies) {
+    public void Update(List<Dairy.ServerDairy> dairies) {
         selectedPosition = -1;
         clicked =-2;
         int i = this.dairies.size();
@@ -123,7 +123,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
             this.FinalTextColor = value.data;
         }
 
-        void setSelected(final Dairy dairy){
+        void setSelected(final Dairy.ServerDairy dairy){
             if(selectedPosition==-1){
                 // Hide Hear
                 if(clicked>0){
@@ -166,9 +166,10 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
 
 
         }
-        public void save(View view,Dairy dairy){
+        public void save(View view,Dairy.ServerDairy dairy){
             view.setVisibility(View.GONE);
             homeViewModel.uploadToday.postValue(dairy);
+
         }
         // i length , i1 number of chenges i1 = initial len i2= final
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -200,7 +201,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
                 public void onAnimationUpdate(ValueAnimator valueAnimator) {
                     float PText = (float) valueAnimator.getAnimatedValue();
                     dairyItemBinding.content.setTextSize(PText);
-                    if(Dairy.isToday(dairyItemBinding.getDairy())){
+                    if(Dairy.ServerDairy.isToday(dairyItemBinding.getDairy())){
                         if(PText==FinalText && dairyItemBinding.getDairy().isToday){
                             dairyItemBinding.content.setFocusable(true);
                             dairyItemBinding.content.setEnabled(true);

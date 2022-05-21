@@ -10,15 +10,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.quotediary.R;
 import com.android.quotediary.databinding.QuoteListItemBinding;
+import com.android.quotediary.models.DataModelOther;
 
 import java.util.List;
 
 public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder> {
     Context context;
-    List<String> list;
+    List<DataModelOther.Quote> list;
     QuotesViewModel quotesViewModel;
 
-    public QuotesAdapter(Context context, List<String> list, QuotesViewModel quotesViewModel) {
+    public QuotesAdapter(Context context, List<DataModelOther.Quote> list, QuotesViewModel quotesViewModel) {
         this.context = context;
         this.list = list;
         this.quotesViewModel = quotesViewModel;
@@ -33,14 +34,27 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.binding.quote.setText(list.get(position));
+        holder.binding.quote.setText(list.get(position).getQuote());
         holder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                quotesViewModel.getSelectedQuote().setValue(list.get(holder.getAdapterPosition()));
+                quotesViewModel.getSelectedQuote().setValue(list.get(holder.getAdapterPosition()).getQuote());
+                quotesViewModel.selectedpos.setValue(holder.getAdapterPosition());
             }
         });
     }
+
+    public void Update(List<DataModelOther.Quote> list){
+        if(getItemCount()==0){
+            this.list = list;
+            notifyItemRangeInserted(0,list.size());
+        }else {
+            int i = getItemCount();
+            this.list.addAll(list);
+            notifyItemRangeInserted(i,list.size());
+        }
+    }
+
 
     @Override
     public int getItemCount() {

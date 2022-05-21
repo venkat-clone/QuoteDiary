@@ -1,7 +1,6 @@
 package com.android.quotediary.ui.home;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,14 +11,10 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.android.quotediary.Helpers.Room.DairyEntity;
 import com.android.quotediary.databinding.FragmentHomeBinding;
 import com.android.quotediary.models.Dairy;
-import com.android.quotediary.models.DairyYear;
 
-import java.time.Year;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -82,26 +77,36 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
-        mViewModel.selectedDairy.observe(getViewLifecycleOwner(), new Observer<Dairy>() {
+//        mViewModel.selectedDairy.observe(getViewLifecycleOwner(), new Observer<Dairy>() {
+//            @Override
+//            public void onChanged(Dairy dairy) {
+//                cardViewAdapter.Merge();
+//            }
+//        });
+        mViewModel.uploadToday.observe(getViewLifecycleOwner(), new Observer<Dairy.ServerDairy>() {
             @Override
-            public void onChanged(Dairy dairy) {
-                cardViewAdapter.Merge();
-            }
-        });
-        mViewModel.uploadToday.observe(getViewLifecycleOwner(), new Observer<Dairy>() {
-            @Override
-            public void onChanged(Dairy dairy) {
+            public void onChanged(Dairy.ServerDairy dairy) {
                 if(dairy!=null){
-                    mViewModel.updateDairy();
+                    mViewModel.updateDairy(requireContext(),dairy);
+                    mViewModel.uploadToday.setValue(null);
                 }
             }
         });
-        mViewModel.DbResponse.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+        mViewModel.serverDairy.observe(getViewLifecycleOwner(), new Observer<Dairy.ServerDairy>() {
+            @Override
+            public void onChanged(Dairy.ServerDairy serverDairy) {
+                if(serverDairy!=null) {
+                    mViewModel.updateLoacaly(serverDairy);
+                    mViewModel.serverDairy.postValue(null);
+                }
+            }
+        });
+        mViewModel.isSucessfull.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                if(!aBoolean){
+                if(aBoolean){
                    cardViewAdapter.notifyItemChanged(cardViewAdapter.selectedPosition);
-                   mViewModel.DbResponse.postValue(null);
+                   mViewModel.isSucessfull.postValue(null);
                 }
             }
         });
