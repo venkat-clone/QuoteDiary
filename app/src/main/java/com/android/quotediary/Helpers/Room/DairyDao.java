@@ -41,7 +41,7 @@ public interface DairyDao {
     @Query("UPDATE Dairy SET content = :content WHERE year = :year AND day_in_year = :day")
     int updateDairy(int year,int day, String content);
 
-    @Query("SELECT * FROM year WHERE year = :year")
-    public DairyEntity.Year getYear(int year);
+    @Query("SELECT EXISTS (SELECT * FROM year WHERE year = :year)")
+    public boolean hasYear(int year);
 
 }

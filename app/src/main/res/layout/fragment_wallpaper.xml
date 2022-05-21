@@ -14,8 +14,10 @@
     </data>
 
     <LinearLayout
+        android:layout_marginTop="24dp"
         android:background="?android:attr/colorBackground"
         android:orientation="vertical"
+        android:nestedScrollingEnabled="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -28,20 +30,23 @@
 <!--    android:layout_height="match_parent">-->
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     android:layout_margin="10dp"
-    android:paddingVertical="10dp"
+    android:paddingVertical="15dp"
+    android:paddingHorizontal="10dp"
     android:background="@drawable/bottom_start_sharp_bg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:nestedScrollingEnabled="true"
+    android:clipChildren="true"
+    android:fitsSystemWindows="true"
     >
     <com.google.android.material.appbar.AppBarLayout
-        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:elevation="0dp"
-        android:animateLayoutChanges="true"
         android:background="@color/transparent"
         >
         <com.google.android.material.appbar.CollapsingToolbarLayout
+
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:elevation="0dp"
             android:layout_width="match_parent"
@@ -57,21 +62,22 @@
                         android:id="@+id/search_layout"
                         android:text="search"
                         />
-            <androidx.core.widget.ContentLoadingProgressBar
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_gravity="bottom"
-                />
+
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_height="match_parent"
         android:nestedScrollingEnabled="true"
         tools:context=".ui.wallpaper.WallpaperFragment"
         android:orientation="vertical">
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
 <!--        <androidx.appcompat.widget.SearchView-->
 <!--            app:layout_constraintTop_toTopOf="parent"-->
 
@@ -108,12 +114,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            tools:itemCount="25"
+            tools:itemCount="30"
             app:spanCount="3"
             tools:listitem="@layout/wallpaper_list_item"
             />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-<!--        <TextView-->
+
+        <!--        <TextView-->
 <!--            android:background="@drawable/top_to_bottom_fading_background"-->
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="wrap_content"-->
@@ -165,7 +173,7 @@
 <!--            android:layout_gravity="bottom"-->
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="3dp"/>-->
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

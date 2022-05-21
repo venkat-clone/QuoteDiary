@@ -6,7 +6,6 @@
     <item
         android:icon="@drawable/home_icon"
         android:id="@+id/navigation_home"
-
         android:title="@string/app_name"
         />
 

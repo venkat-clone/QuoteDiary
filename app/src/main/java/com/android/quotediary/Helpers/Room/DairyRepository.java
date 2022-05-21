@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class DairyRepository {
@@ -36,6 +37,30 @@ public class DairyRepository {
             dairyDao.insert(new DairyEntity.Year(2020));
         });
     }
+
+    public void insertServerResponce(List<Dairy.ServerDairy> list, MutableLiveData<Integer> responce){
+//        DairyDataBase.databaseWriteExecutor.execute(()->{
+//            for (Dairy.ServerDairy dairy:list) {
+//                    dairyDao.insert(new DairyEntity(dairy.getDay(),dairy.getId(),dairy.getYear(), dairy.getContent()));
+//            }
+//            responce.setValue(200);
+//        });
+        DairyDataBase.databaseWriteExecutor.execute(
+                new Runnable(){
+                public void run(){
+            for (Dairy.ServerDairy dairy:list) {
+                dairyDao.insert(new DairyEntity(dairy.getDay(),dairy.getId(),dairy.getYear(), dairy.getContent()));
+                if(!dairyDao.hasYear(dairy.getYear())) dairyDao.insert(new DairyEntity.Year(dairy.getYear()));
+            }
+            return;
+        }
+                });
+        responce.setValue(200);
+
+    }
+
+
+
     public void CleanDB(){
         DairyDataBase.databaseWriteExecutor.execute(()->{
             dairyDao.deleteYear();
@@ -96,7 +121,12 @@ public class DairyRepository {
 //
                 }
             }
-            Collections.reverse(yearList);
+            Collections.sort(yearList, new Comparator<Dairy.Year>() {
+                @Override
+                public int compare(Dairy.Year lhs, Dairy.Year rhs) {
+                    return lhs.getYear()-(rhs.getYear());
+                }
+            });
             yearlist.postValue(yearList);
         });
     }

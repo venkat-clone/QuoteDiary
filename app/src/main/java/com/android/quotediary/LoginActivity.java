@@ -10,15 +10,20 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.euicc.DownloadableSubscription;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.android.quotediary.Helpers.Room.DairyRepository;
 import com.android.quotediary.Reterofit.Repository.LoginRepository;
 import com.android.quotediary.databinding.ActivityLoginBinding;
+import com.android.quotediary.models.Dairy;
 import com.android.quotediary.models.UserModel;
+
+import java.util.List;
 
 import retrofit2.Retrofit;
 
@@ -27,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     public static LoginActivityViewModel viewModel;
     public UserModel.Login userModel ;
     LoginRepository loginRepository;
+    DairyRepository dairyRepository;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +46,8 @@ public class LoginActivity extends AppCompatActivity {
         userModel = new UserModel.Login();
         binding.setUsermodel(userModel);
         binding.setClickHandler(new ClickHandlers());
+        viewModel.DownloadResponce.setValue(100);
+        dairyRepository = new DairyRepository(getApplication());
         loginRepository.Login(new UserModel.Login("venkey@123","venkey1single@gmail.com"),viewModel.loginresponce);
         Observer();
     }
@@ -58,7 +66,26 @@ public class LoginActivity extends AppCompatActivity {
 //                }
 //            }
 //        });
-
+        viewModel.DownloadResponce.observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                switch (integer){
+                    case 200:
+                        Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+                }
+            }
+        });
+        viewModel.DairyList.observe(this, new Observer<List<Dairy.ServerDairy>>() {
+            @Override
+            public void onChanged(List<Dairy.ServerDairy> serverDairies) {
+                if(serverDairies!=null){
+                    dairyRepository.insertServerResponce(serverDairies,viewModel.DownloadResponce);
+                }
+            }
+        });
         viewModel.loginresponce.observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
@@ -71,10 +98,12 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(getBaseContext(),"User Not Found",Toast.LENGTH_LONG).show();
                         break;
                     case 200:
-                        Toast.makeText(getBaseContext(),"LOGIN SUCCESSFUL",Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(getBaseContext(),MainActivity.class);
-                        startActivity(intent);
-                        finish();
+                        loginRepository.Download(viewModel.DownloadResponce,viewModel.DairyList);
+//                    {
+//                        Intent intent = new Intent(getBaseContext(), MainActivity.class);
+//                        startActivity(intent);
+//                        finish();
+//                    }
 
                         break;
                 }
