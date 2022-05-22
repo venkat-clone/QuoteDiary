@@ -6,7 +6,7 @@ import android.net.ConnectivityManager;
 public class BaseClass {
     public static int DeviceWidth;
     public static int DeviceHeight;
-    public static String URL = "https://my-mood-my-diary.herokuapp.com";
+    public static String URL = "<API URL>";
 //    public static final String URL = "https://198.168.1.14:4000";
 
     public static boolean isNetworkConnected(Context context) {
