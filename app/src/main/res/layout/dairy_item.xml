@@ -62,6 +62,13 @@
                 app:layout_constraintTop_toTopOf="@+id/dateText"
                 app:layout_constraintVertical_bias="0.7"
                 tools:text="mar" />
+            <ImageView
+                setDay="@{dairy}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/ic_baseline_circle_24"
+                android:layout_width="30dp"
+                android:layout_height="30dp"/>
 
 
             <com.google.android.material.textfield.TextInputEditText
@@ -69,6 +76,7 @@
                 android:focusable="false"
                 android:layout_marginHorizontal="10dp"
                 android:id="@+id/content"
+                tools:visibility="gone"
                 tools:textSize="20dp"
                 android:text="@={dairy.content}"
                 android:onTextChanged="@{holder.onTextChanged}"

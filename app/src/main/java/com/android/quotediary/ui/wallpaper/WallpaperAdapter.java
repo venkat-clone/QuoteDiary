@@ -45,19 +45,21 @@ public class WallpaperAdapter extends RecyclerView.Adapter<WallpaperAdapter.View
             wallpaperViewModel.getSelectedWall().setValue(model);
         }
     }
-    @SuppressLint("NotifyDataSetChanged")
     public void update(List<DataModelOther.Wallpaper> list) {
 
         if(wallpapers.size()==0) {
             wallpapers = list;
+            wallpaperViewModel.page++;
             notifyItemRangeInserted(0, list.size());
         }
         else {
+            wallpaperViewModel.page++;
             notifyItemRangeInserted(wallpapers.size(), list.size());
             wallpapers.addAll(list);
         }
     }
     public void initialize(){
+        wallpaperViewModel.page =0;
         int s = wallpapers.size();
         wallpapers = new ArrayList<>();
         notifyItemRangeRemoved(0,s);

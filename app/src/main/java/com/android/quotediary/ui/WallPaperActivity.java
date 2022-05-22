@@ -63,6 +63,12 @@ public class WallPaperActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+    }
+
     public class ClickHandler{
 
         public void shareWallpaper(View view){
@@ -89,6 +95,7 @@ public class WallPaperActivity extends AppCompatActivity {
         }
         public void onBackPressed(View view){
             finish();
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         }
         public void ShowOptions(View view){
             // Show Opsctions for
@@ -119,6 +126,7 @@ public class WallPaperActivity extends AppCompatActivity {
         Glide.with(context)
                 .as(Bitmap.class)
                 .load(url)
+                .encodeQuality(100)
                 .into(new SimpleTarget<Bitmap>() {
                     @SuppressLint({"SetWorldWritable", "SetWorldReadable"})
                     @Override
@@ -128,24 +136,20 @@ public class WallPaperActivity extends AppCompatActivity {
                         File sdCard = Environment.getExternalStorageDirectory();
                         @SuppressLint("DefaultLocale") String fileName = String.format("%d.jpg", System.currentTimeMillis());
                         File dir = new File(sdCard.getAbsolutePath() + "/DCIM/QuoteDairy");
-                        dir.setReadable(true,false);
-                        dir.setWritable(true,false);
+                        //noinspection ResultOfMethodCallIgnored
                         dir.mkdirs();
                         final File myImageFile = new File(dir, fileName);
-                        myImageFile.setWritable(true,false);
-                        myImageFile.setReadable(true,false);
                         FileOutputStream fos = null;
                         try {
                             fos = new FileOutputStream(myImageFile);
-                            Bitmap bitmap = resource;
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                            resource.compress(Bitmap.CompressFormat.JPEG, 100, fos);
                             sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" +dir.getPath())));
                             Toast.makeText(context,"Successfully Downloaded Wallpaper",Toast.LENGTH_SHORT).show();
                         } catch (IOException e) {
                             e.printStackTrace();
                         } finally {
                             try {
-                                fos.close();
+                                if(fos!=null) fos.close();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }

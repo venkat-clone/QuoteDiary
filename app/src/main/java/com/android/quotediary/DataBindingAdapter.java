@@ -2,12 +2,15 @@ package com.android.quotediary;
 
 import android.annotation.SuppressLint;
 import android.content.res.AssetManager;
+import android.content.res.ColorStateList;
+import android.graphics.ColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.Html;
 
 import java.text.DateFormatSymbols;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
@@ -95,7 +98,6 @@ public class DataBindingAdapter {
     public static void month(TextView textView, Dairy.ServerDairy date){
         Calendar calendar = Calendar.getInstance();
         DateFormatSymbols symbols = DateFormatSymbols.getInstance();
-        Log.i("Month",""+calendar);
         calendar.set(Calendar.DAY_OF_YEAR,date.getDay());
         textView.setText(" "+symbols.getMonths()[calendar.get(Calendar.MONTH)].substring(0,3));
     }
@@ -103,7 +105,6 @@ public class DataBindingAdapter {
     @BindingAdapter("day")
     public static void day(TextView textView, Dairy.ServerDairy date){
         Calendar calendar = Calendar.getInstance();
-        Log.i("Month",""+calendar);
         calendar.set(Calendar.DAY_OF_YEAR,date.getDay());
         textView.setText(calendar.get(Calendar.DAY_OF_MONTH)+"");
     }
@@ -144,27 +145,21 @@ public class DataBindingAdapter {
         layoutParams.height = (int) (BaseClass.DeviceHeight *DeviceHeightRation);
         view.setLayoutParams(layoutParams);
     }
-
-    @BindingAdapter({"WallpaperHeight","WallpaperWidth"})
-    public static void setWallpaperDimenction(View view,Integer WallpaperHeight,Integer WallpaperWidth){
+    @BindingAdapter("DeviceWidthRation")
+    public static void setDeviceWidthRation(View view,double DeviceHeightRation){
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-//
-//
-        layoutParams.height = (WallpaperHeight/WallpaperWidth)*layoutParams.width;
+        layoutParams.width = (int) (BaseClass.DeviceWidth *DeviceHeightRation);
         view.setLayoutParams(layoutParams);
     }
+
+
     @BindingAdapter("Setfont")
     public static void Setfont(TextView tv,String Setfont){
         Typeface typeface = Typeface.createFromAsset(tv.getResources().getAssets(), "fonts/"+ Setfont+".ttf");
 //        Typeface typeface = tv.getResources()(R.font.font0001);
         tv.setTypeface(typeface);
     }
-//    @BindingAdapter("SharedTypeFace")
-//    public static void setTypeFace(TextView tv,String SharedTypeFace){
-//        String id = sharedPreferenceServices.getSharedFile(tv.getContext());
-//        Typeface typeface = Typeface.createFromAsset(tv.getResources().getAssets(), "fonts/"+ id+".ttf");
-//        tv.setTypeface(typeface);
-//    }
+
 
     @BindingAdapter("setRandom")
     public static void setRandom(View view,String setRandom){
@@ -201,6 +196,26 @@ public class DataBindingAdapter {
         }
         view.setBackgroundColor(color);
     }
+
+    @BindingAdapter("isShimmer")
+    public static void setShimmer(ShimmerFrameLayout shimmer,boolean isShimmer){
+        if(isShimmer){
+            shimmer.startShimmer();
+        }
+        else shimmer.stopShimmer();
+    }
+    @BindingAdapter("setDay")
+    public static void setDat(ImageView imageView,Dairy.ServerDairy date){
+//        String colors[] = imageView.getContext().getResources().getStringArray(R.array.week);
+        Calendar calendar = Calendar.getInstance();
+        DateFormatSymbols symbols = DateFormatSymbols.getInstance();
+        calendar.set(Calendar.DAY_OF_YEAR,date.getDay());
+        calendar.set(Calendar.YEAR,date.getYear());
+        int[] colors = imageView.getContext().getResources().getIntArray(R.array.weekInt);
+        imageView.setColorFilter(colors[calendar.get(Calendar.DAY_OF_WEEK)-1], android.graphics.PorterDuff.Mode.MULTIPLY);
+
+    }
+
 
 
 }

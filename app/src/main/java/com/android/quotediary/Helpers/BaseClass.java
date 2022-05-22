@@ -13,4 +13,7 @@ public class BaseClass {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
+    public static void setColor(){
+
+    }
 }

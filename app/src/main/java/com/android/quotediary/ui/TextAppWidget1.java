@@ -38,7 +38,7 @@ public class TextAppWidget1 extends AppWidgetProvider {
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.text_app_widget1);
 
-        File file = new File(context.getCacheDir(), "image.png");
+        File file = new File(context.getFilesDir(), "image.png");
 
         if(file.exists()){
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();

@@ -31,11 +31,13 @@ public class SplashScreenActivity extends AppCompatActivity {
                     Log.i("Splash Screen","First Run");
                     Intent i = new Intent(SplashScreenActivity.this, LoginActivity.class);
                     startActivity(i);
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                     finish();
                 }
                 else if(sharedPreferenceServices.IsLogedIn(getBaseContext())){
                     Intent i = new Intent(SplashScreenActivity.this, MainActivity.class);
                     startActivity(i);
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                     finish();
                     Log.i("Splash Screen","LogedIn");
 
@@ -43,6 +45,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 else{
                     Log.i("Splash Screen","Else ");
                     Intent i = new Intent(SplashScreenActivity.this, MainActivity.class);
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                     startActivity(i);
                     finish();
                 }

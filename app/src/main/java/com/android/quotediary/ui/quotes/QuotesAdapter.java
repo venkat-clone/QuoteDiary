@@ -12,6 +12,7 @@ import com.android.quotediary.R;
 import com.android.quotediary.databinding.QuoteListItemBinding;
 import com.android.quotediary.models.DataModelOther;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder> {
@@ -53,6 +54,11 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
             this.list.addAll(list);
             notifyItemRangeInserted(i,list.size());
         }
+    }
+    public void initialize(){
+        int i = getItemCount();
+        this.list = new ArrayList<>();
+        this.notifyItemRangeRemoved(0,i);
     }
 
 

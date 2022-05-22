@@ -71,7 +71,7 @@ public class QuotesFragment extends Fragment {
         binding = FragmentQuotesBinding.inflate(inflater, container, false);
         binding.setLifecycleOwner(this);
         binding.setClickHandler(new ClickHandler());
-        binding.setViewmdel(mViewModel);
+        binding.setViewModel(mViewModel);
 
         init();
         Observers();
@@ -93,10 +93,24 @@ public class QuotesFragment extends Fragment {
 
 
     void Observers() {
+
+        binding.swipelayout.setOnRefreshListener(()->{
+            quotesAdapter.initialize();
+            mViewModel.isLoading.setValue(true);
+            mViewModel.selectedQuote.setValue("");
+            mViewModel.getQuotes(requireContext());
+            binding.swipelayout.setRefreshing(false);
+        });
+
+
         mViewModel.serverResponce.observe(getViewLifecycleOwner(), new Observer<List<DataModelOther.Quote>>() {
             @Override
             public void onChanged(List<DataModelOther.Quote> quotes) {
-                if(quotes!=null) quotesAdapter.Update(quotes);
+                if(quotes!=null) {
+                    binding.swipelayout.setRefreshing(false);
+                    quotesAdapter.Update(quotes);
+                    mViewModel.isLoading.setValue(false);
+                }
             }
         });
         binding.slider.addOnChangeListener(new Slider.OnChangeListener() {
@@ -148,6 +162,7 @@ public class QuotesFragment extends Fragment {
                     binding.maincard.setBackground(wallpaperManager.getDrawable().getCurrent());
                     if(mViewModel.selectedpos.getValue()!=null && mViewModel.selectedpos.getValue()>-1)binding.quoteRecycler.scrollToPosition(mViewModel.selectedpos.getValue());
                     binding.slider.setValue(50);
+                    binding.quoteRecycler.scrollToPosition(mViewModel.selectedpos.getValue());
                 }
             }
         });
@@ -192,13 +207,15 @@ public class QuotesFragment extends Fragment {
 
         public void onNext(View view){
 //            Toast.makeText(context,"onUpdate",Toast.LENGTH_SHORT).show();
-
             binding.textlayout.setDrawingCacheEnabled(true);
             Bitmap bitmap = Bitmap.createBitmap(binding.textlayout.getDrawingCache());
-
-            File f = new File(requireContext().getCacheDir(),"image.png");
+            File f = new File(requireContext().getFilesDir(),"image.png");
+            f.setWritable(true);
+            f.setReadable(true);
+            f.setLastModified(System.currentTimeMillis());
 
             try {
+                if(f.exists()) f.delete();
                 if(!f.exists())
                     f.createNewFile();
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -212,7 +229,7 @@ public class QuotesFragment extends Fragment {
                 e.printStackTrace();
             }
 //            mViewModel.setQuoteData(requireContext());
-            mViewModel.updateQuotes(requireContext());
+            mViewModel.updateQuotes(requireContext().getApplicationContext());
 
 
 
@@ -242,9 +259,9 @@ public class QuotesFragment extends Fragment {
                         }
                     })
                     .setNegativeButton("Cancle",null)
-
                     .show();
 
+            binding.textlayout.destroyDrawingCache();
 
 
 
@@ -261,16 +278,4 @@ public class QuotesFragment extends Fragment {
 
     }
 
-
-
-
-
-
-
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
 }

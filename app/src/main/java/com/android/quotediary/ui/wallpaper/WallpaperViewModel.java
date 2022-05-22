@@ -24,6 +24,7 @@ public class WallpaperViewModel extends AndroidViewModel {
     MutableLiveData<List<DataModelOther.Wallpaper>> wallpapers;
     MutableLiveData<String> query;
     UserRepository userRepository;
+    MutableLiveData<Boolean> isLoading;
 
     int page=0;
 //    MutableLiveData<>
@@ -36,19 +37,22 @@ public class WallpaperViewModel extends AndroidViewModel {
         query = new MutableLiveData<>();
         selectedWall = new MutableLiveData<>();
         wallpapers = new MutableLiveData<>();
+        isLoading = new MutableLiveData<>(true);
     }
     public void CreateRepo(Context context){
         wallpapers = new MutableLiveData<>();
         userRepository = new UserRepository(context);
-        userRepository.getWallpapers(wallpapers,++page);
+//        userRepository.getWallpapers(wallpapers,page+1);
+        isLoading.setValue(true);
+        LoadMore();
 
     }
     public void LoadMore(){
-        if(page >=0) userRepository.getWallpapers(wallpapers,++page);
+        if(page >=0) userRepository.getWallpapers(wallpapers,page+1);
 
     }
     public void saerchWall(){
-        if(page >=0) userRepository.searchWallpapers(wallpapers,++page,query.getValue());
+        if(page >=0) userRepository.searchWallpapers(wallpapers,page+1,query.getValue());
     }
 
 
@@ -56,11 +60,18 @@ public class WallpaperViewModel extends AndroidViewModel {
 //        return mText;
 //    }
 
-    public void search(){
+//    public void search(){
+//
+//    }
 
+
+    public MutableLiveData<Boolean> getIsLoading() {
+        return isLoading;
     }
 
-
+    public void setIsLoading(MutableLiveData<Boolean> isLoading) {
+        this.isLoading = isLoading;
+    }
 
     public MutableLiveData<Boolean> getIsScrolling() {
         return isScrolling;

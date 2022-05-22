@@ -76,7 +76,9 @@
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/swipelayout"
             >
+
 
 <!--        <androidx.appcompat.widget.SearchView-->
 <!--            app:layout_constraintTop_toTopOf="parent"-->
@@ -105,9 +107,48 @@
 <!--            app:layout_constraintEnd_toEndOf="@+id/search_layout"-->
 <!--            app:layout_constraintStart_toStartOf="@+id/search_layout"-->
 <!--            app:layout_constraintTop_toTopOf="@+id/search_layout" />-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:layout_width="match_parent"
+                    android:visibility="@{ViewModel.isLoading?View.VISIBLE:View.GONE}"
+                    android:layout_height="match_parent"
+                    app:shimmer_duration="1500"
+                    android:layout_gravity="center"
+                    isShimmer="@{ViewModel.isLoading}"
+                    >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_gravity="center"
+                        >
 
+                    <ImageView
+                        DeviceWidthRation="@{.33}"
+                        DeviceHeightRation="@{.28}"
+                        android:layout_gravity="center"
+                        android:tint="@color/purple_200"
+                        android:src="@drawable/wallpaper_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:maxLines="1"
+                        android:gravity="center"
+                        android:textSize="32sp"
+                        android:textColor="@color/purple_200"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Wallpaper"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                    </LinearLayout>
+                </com.facebook.shimmer.ShimmerFrameLayout>
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_margin="10dp"
+            android:layout_marginVertical="10dp"
+            android:visibility="@{ViewModel.isLoading?View.GONE:View.VISIBLE}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:nestedScrollingEnabled="true"
             android:id="@+id/recycler_wallpaper"
@@ -118,6 +159,7 @@
             app:spanCount="3"
             tools:listitem="@layout/wallpaper_list_item"
             />
+            </LinearLayout>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 

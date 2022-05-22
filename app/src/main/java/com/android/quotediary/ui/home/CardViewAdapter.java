@@ -105,20 +105,20 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
         DairyItemBinding dairyItemBinding;
 
-        int InitalCard ,FinalCard;
+//        int InitalCard ,FinalCard;
         int InitalTextColor ,FinalTextColor;
         final int DURATION=1000;
         public ViewHolder(@NonNull DairyItemBinding itemView) {
             super(itemView.getRoot());
             dairyItemBinding = itemView;
 //            dairyItemBinding.setClickhandler(this);
-            this.InitalCard = dairyItemBinding.cardView.getCardBackgroundColor().getDefaultColor();
-            TypedValue value = new TypedValue();
-            context.getTheme().resolveAttribute(R.attr.Dairy_cardBackground, value, true);
-            this.FinalCard = value.data;
-            this.InitalTextColor = itemView.dateText.getCurrentTextColor();
-            context.getTheme().resolveAttribute(android.R.attr.colorPrimaryDark, value, true);
-            this.FinalTextColor = value.data;
+//            this.InitalCard = dairyItemBinding.cardView.getCardBackgroundColor().getDefaultColor();
+//            TypedValue value = new TypedValue();
+//            context.getTheme().resolveAttribute(R.attr.Dairy_cardBackground, value, true);
+//            this.FinalCard = value.data;
+//            this.InitalTextColor = itemView.dateText.getCurrentTextColor();
+//            context.getTheme().resolveAttribute(android.R.attr.colorPrimaryDark, value, true);
+//            this.FinalTextColor = value.data;
         }
 
         void setSelected(final Dairy.ServerDairy dairy){
@@ -180,12 +180,12 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
             ValueAnimator dateAnimator,textInputAnimator,cardBGAnimation,TextColorAnimation;
             dateAnimator = ValueAnimator.ofFloat(InitalDate,FinalDate);
             textInputAnimator = ValueAnimator.ofFloat(InitalText,FinalText);
-            cardBGAnimation = ValueAnimator.ofObject(new ArgbEvaluator(),InitalCard,FinalCard);
-            TextColorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(),InitalTextColor,FinalTextColor);
+//            cardBGAnimation = ValueAnimator.ofObject(new ArgbEvaluator(),InitalCard,FinalCard);
+//            TextColorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(),InitalTextColor,FinalTextColor);
             dateAnimator.setDuration(DURATION);
             textInputAnimator.setDuration(DURATION);
-            cardBGAnimation.setDuration(DURATION);
-            TextColorAnimation.setDuration(DURATION);
+//            cardBGAnimation.setDuration(DURATION);
+//            TextColorAnimation.setDuration(DURATION);
             dateAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -210,26 +210,26 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
 //                    }
                 }
             });
-            cardBGAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    int CardColor = (int) valueAnimator.getAnimatedValue();
-                    dairyItemBinding.cardView.setCardBackgroundColor(CardColor);
-                }
-            });
-            TextColorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    int TextColor = (int) valueAnimator.getAnimatedValue();
-                    dairyItemBinding.month.setTextColor(TextColor);
-                    dairyItemBinding.dateText.setTextColor(TextColor);
-                }
-            });
+//            cardBGAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//                @Override
+//                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+//                    int CardColor = (int) valueAnimator.getAnimatedValue();
+//                    dairyItemBinding.cardView.setCardBackgroundColor(CardColor);
+//                }
+//            });
+//            TextColorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//                @Override
+//                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+//                    int TextColor = (int) valueAnimator.getAnimatedValue();
+//                    dairyItemBinding.month.setTextColor(TextColor);
+//                    dairyItemBinding.dateText.setTextColor(TextColor);
+//                }
+//            });
             animationSet = new AnimatorSet();
             animationSet.play(dateAnimator);
             animationSet.play(textInputAnimator);
-            animationSet.play(cardBGAnimation);
-            animationSet.play(TextColorAnimation);
+//            animationSet.play(cardBGAnimation);
+//            animationSet.play(TextColorAnimation);
             animationSet.start();
         }
         public void CompressAnimation(){
@@ -238,12 +238,12 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
 
             dateAnimator = ValueAnimator.ofFloat(FinalDate,InitalDate);
             textInputAnimator = ValueAnimator.ofFloat(FinalText,InitalText);
-            cardBGAnimation = ValueAnimator.ofObject(new ArgbEvaluator(),FinalCard,InitalCard);
-            TextColorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(),FinalTextColor,InitalTextColor);
+//            cardBGAnimation = ValueAnimator.ofObject(new ArgbEvaluator(),FinalCard,InitalCard);
+//            TextColorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(),FinalTextColor,InitalTextColor);
             dateAnimator.setDuration(DURATION);
             textInputAnimator.setDuration(DURATION);
-            cardBGAnimation.setDuration(DURATION);
-            TextColorAnimation.setDuration(DURATION);
+//            cardBGAnimation.setDuration(DURATION);
+//            TextColorAnimation.setDuration(DURATION);
             dateAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -259,41 +259,41 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
                     dairyItemBinding.content.setEnabled(false);
                 }
             });
-            cardBGAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    int CardColor = (int) valueAnimator.getAnimatedValue();
-                    dairyItemBinding.cardView.setCardBackgroundColor(CardColor);
-                }
-            });
-            TextColorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    int TextColor = (int) valueAnimator.getAnimatedValue();
-                    dairyItemBinding.month.setTextColor(TextColor);
-                    dairyItemBinding.dateText.setTextColor(TextColor);
-                }
-            });
+//            cardBGAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//                @Override
+//                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+//                    int CardColor = (int) valueAnimator.getAnimatedValue();
+//                    dairyItemBinding.cardView.setCardBackgroundColor(CardColor);
+//                }
+//            });
+//            TextColorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//                @Override
+//                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+//                    int TextColor = (int) valueAnimator.getAnimatedValue();
+//                    dairyItemBinding.month.setTextColor(TextColor);
+//                    dairyItemBinding.dateText.setTextColor(TextColor);
+//                }
+//            });
             animationSet = new AnimatorSet();
             animationSet.play(dateAnimator);
             animationSet.play(textInputAnimator);
-            animationSet.play(cardBGAnimation);
-            animationSet.play(TextColorAnimation);
+//            animationSet.play(cardBGAnimation);
+//            animationSet.play(TextColorAnimation);
             animationSet.start();
         }
         public void Init() {
             dairyItemBinding.dateText.setTextSize(InitalDate);
             dairyItemBinding.content.setTextSize(InitalText);
-            dairyItemBinding.cardView.setCardBackgroundColor(InitalCard);
-            dairyItemBinding.month.setTextColor(InitalTextColor);
-            dairyItemBinding.dateText.setTextColor(InitalTextColor);
+//            dairyItemBinding.cardView.setCardBackgroundColor(InitalCard);
+//            dairyItemBinding.month.setTextColor(InitalTextColor);
+//            dairyItemBinding.dateText.setTextColor(InitalTextColor);
         }
         public void Final() {
             dairyItemBinding.dateText.setTextSize(FinalDate);
             dairyItemBinding.content.setTextSize(FinalText);
-            dairyItemBinding.cardView.setCardBackgroundColor(FinalCard);
-            dairyItemBinding.month.setTextColor(FinalTextColor);
-            dairyItemBinding.dateText.setTextColor(FinalTextColor);
+//            dairyItemBinding.cardView.setCardBackgroundColor(FinalCard);
+//            dairyItemBinding.month.setTextColor(FinalTextColor);
+//            dairyItemBinding.dateText.setTextColor(FinalTextColor);
         }
     }
 }

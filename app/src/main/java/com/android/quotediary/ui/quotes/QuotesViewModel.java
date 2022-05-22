@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.wifi.aware.WifiAwareManager;
@@ -31,6 +32,7 @@ public class QuotesViewModel extends AndroidViewModel {
     MutableLiveData<Float>  textSize;
     UserRepository userRepository ;
     MutableLiveData<Integer> selectedpos;
+    MutableLiveData<Boolean> isLoading;
     int Page =0;
     public QuotesViewModel(Application application) {
         super(application);
@@ -40,6 +42,15 @@ public class QuotesViewModel extends AndroidViewModel {
         serverResponce = new MutableLiveData<>();
         userRepository = new UserRepository();
         selectedpos  = new MutableLiveData<>(-1);
+        isLoading = new MutableLiveData<>(true);
+    }
+
+    public MutableLiveData<Boolean> getIsLoading() {
+        return isLoading;
+    }
+
+    public void setIsLoading(MutableLiveData<Boolean> isLoading) {
+        this.isLoading = isLoading;
     }
 
     public void getQuotes(Context context){
@@ -72,20 +83,27 @@ public class QuotesViewModel extends AndroidViewModel {
 
     public void updateQuotes(Context context){
         AppWidgetManager widgetManager = AppWidgetManager.getInstance(context);
-        AppWidgetProvider appWidgetProvider = new AppWidgetProvider();
         int[] ids = AppWidgetManager.getInstance(context)
                     .getAppWidgetIds(new ComponentName(context, TextAppWidget1.class));
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.text_app_widget1);
+//        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.text_app_widget1);
+//
+//        File file = new File(context.getFilesDir(), "image.png");
+//
+//        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+//        Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), bmOptions);
+//
+//
+//        views.setImageViewBitmap(R.id.myimage, bitmap);
 
-        File file = new File(context.getCacheDir(), "image.png");
+//        widgetManager.updateAppWidget(ids,views);
+        Intent intent = new Intent(context, TextAppWidget1.class);
+            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+//            // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
+//            // since it seems the onUpdate() is only fired on that:
 
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), bmOptions);
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+            context.sendBroadcast(intent);
 
-
-        views.setImageViewBitmap(R.id.myimage, bitmap);
-
-        widgetManager.updateAppWidget(ids,views);
 
 
     }

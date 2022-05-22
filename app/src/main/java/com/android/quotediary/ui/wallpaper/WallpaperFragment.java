@@ -24,8 +24,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.quotediary.MainActivity;
+import com.android.quotediary.R;
 import com.android.quotediary.databinding.FragmentWallpaperBinding;
 import com.android.quotediary.models.DataModelOther;
 import com.android.quotediary.ui.WallPaperActivity;
@@ -44,7 +46,7 @@ public class WallpaperFragment extends Fragment {
                 new ViewModelProvider(this).get(WallpaperViewModel.class);
         binding = FragmentWallpaperBinding.inflate(inflater, container, false);
         binding.setLifecycleOwner(this);
-
+        binding.setViewModel(mViewModel);
         wallpaperAdapter = new WallpaperAdapter(getContext(),mViewModel,new ArrayList<>());
         binding.recyclerWallpaper.setAdapter(wallpaperAdapter);
 
@@ -56,6 +58,19 @@ public class WallpaperFragment extends Fragment {
     }
 
     void Observers(){
+        binding.swipelayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mViewModel.page =0;
+                if(mViewModel.query.getValue()==null ){
+                    mViewModel.LoadMore();
+                }
+                else mViewModel.saerchWall();
+                wallpaperAdapter.initialize();
+                mViewModel.isLoading.setValue(true);
+                binding.swipelayout.setRefreshing(false);
+            }
+        });
         binding.recyclerWallpaper.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -85,6 +100,7 @@ public class WallpaperFragment extends Fragment {
                 imm.hideSoftInputFromWindow(binding.searchLayout.getWindowToken(), 0);
                 binding.searchLayout.clearFocus();
                 mViewModel.query.setValue(query);
+                mViewModel.isLoading.setValue(true);
                 mViewModel.page =0;
                 mViewModel.saerchWall();
                 wallpaperAdapter.initialize();
@@ -102,12 +118,14 @@ public class WallpaperFragment extends Fragment {
         mViewModel.wallpapers.observe(getViewLifecycleOwner(), new Observer<List<DataModelOther.Wallpaper>>() {
             @Override
             public void onChanged(List<DataModelOther.Wallpaper> wallpapers) {
+                binding.swipelayout.setRefreshing(false);
                 if(wallpapers!=null && wallpapers.size()!=0){
                     wallpaperAdapter.update(wallpapers);
                 }
                 else if(wallpapers!=null){
                     mViewModel.page =-1;
                 }
+                mViewModel.isLoading.setValue(false);
             }
         });
 
@@ -118,6 +136,7 @@ public class WallpaperFragment extends Fragment {
                     Intent intent = new Intent(getContext(), WallPaperActivity.class);
                     intent.putExtra("wallpaper",wallpaper.getUrl());
                     startActivity(intent);
+                    requireActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     mViewModel.getSelectedWall().setValue(null);
                 }
             }

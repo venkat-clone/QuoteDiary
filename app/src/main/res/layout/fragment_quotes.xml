@@ -5,7 +5,7 @@
 
     <data>
         <variable
-            name="viewmdel"
+            name="ViewModel"
             type="com.android.quotediary.ui.quotes.QuotesViewModel" />
         <variable
             name="ClickHandler"
@@ -31,11 +31,55 @@
             android:paddingVertical="15dp"
             android:paddingHorizontal="10dp"
             >
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:layout_width="match_parent"
+                android:id="@+id/swipelayout"
+                android:layout_height="match_parent">
             <LinearLayout
                 android:layout_marginTop="7dp"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:layout_width="wrap_content"
+                    tools:visibility="gone"
+                    android:visibility="@{ViewModel.isLoading?View.VISIBLE:View.GONE}"
+                    android:layout_height="match_parent"
+                    app:shimmer_duration="1500"
+                    isShimmer="@{ViewModel.isLoading}"
+                    android:layout_marginHorizontal="50dp"
+                    android:layout_gravity="center"
+                    >
+                    <LinearLayout
+                        tools:layout_width="300dp"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
+
+                    <ImageView
+                        android:layout_gravity="center"
+                        DeviceWidthRation="@{.33}"
+                        android:tint="@color/purple_200"
+                        android:src="@drawable/quote_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:maxLines="1"
+                        android:textSize="32sp"
+                        android:gravity="center"
+                        android:textColor="@color/purple_200"
+                        android:layout_gravity="bottom|center_horizontal"
+                        android:text="Quotes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                    </LinearLayout>
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+
                 <LinearLayout
                     android:elevation="2dp"
                     android:id="@+id/cardparent"
@@ -49,7 +93,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:id="@+id/cardlayout"
-                android:visibility="@{viewmdel.selectedQuote.equals(``)?View.GONE:View.VISIBLE}"
+                android:visibility="@{ViewModel.selectedQuote.equals(``)?View.GONE:View.VISIBLE}"
                 tools:visibility="visible"
                 app:cardCornerRadius="25dp"
                 android:layout_margin="6dp"
@@ -112,7 +156,7 @@
                             android:gravity="center"
                             tools:lines="3"
                             tools:text="Testing"
-                            android:text="@{viewmdel.selectedQuote}"
+                            android:text="@{ViewModel.selectedQuote}"
                             android:textColor="@color/black"
                             android:textSize="50sp"
                             app:layout_constraintBottom_toTopOf="@+id/slider"
@@ -285,6 +329,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 <!--        </androidx.core.widget.NestedScrollView>-->
     </LinearLayout>
