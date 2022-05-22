@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="model"
+            type="com.android.quotediary.models.DataModelOther.FontStyle" />
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="#6DFFFFFF"
+        android:layout_margin="5dp">
+
+        <LinearLayout
+            android:layout_margin="5dp"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                Setfont="@{model.id}"
+                android:id="@+id/Aa"
+                android:textColor="?attr/SolidTextColor"
+                android:textSize="32sp"
+                android:text="Aa"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp" />
+
+            <TextView
+                android:id="@+id/name"
+                android:textColor="?attr/SolidTextColor"
+                android:textStyle="bold|italic"
+                tools:text="Nothing nonthni hbjhwsb h"
+                android:ems="5"
+                android:textSize="10sp"
+                android:maxLength="10"
+                android:gravity="center"
+                android:text="@{model.name}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

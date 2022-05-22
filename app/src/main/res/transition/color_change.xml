@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transitionManager xmlns:android="http://schemas.android.com/apk/res/android">
+    <transition android:fromScene="?attr/colorOnPrimary" android:toScene="?attr/colorPrimary" >
+
+    </transition>
+</transitionManager>

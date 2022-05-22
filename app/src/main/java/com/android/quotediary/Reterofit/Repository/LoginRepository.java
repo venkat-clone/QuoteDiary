@@ -7,11 +7,20 @@ import android.widget.Toast;
 import androidx.lifecycle.MutableLiveData;
 
 import com.android.quotediary.LoginActivityViewModel;
+import com.android.quotediary.models.Dairy;
 import com.android.quotediary.models.UserModel;
 import com.android.quotediary.Reterofit.API.LoginAPI;
 import com.android.quotediary.Reterofit.ReterofirServices;
 import com.android.quotediary.sharedPreferenceServices;
+import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.List;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -96,5 +105,52 @@ public class LoginRepository {
         });
 
     }
+
+    public void Download(MutableLiveData<Integer> responcecode,MutableLiveData<List<Dairy.ServerDairy>> list){
+        loginAPI.getDairyCount(sharedPreferenceServices.GetAuthToken(context)).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()){
+                    try {
+                        JSONObject json = new JSONObject(response.body().string());
+                        int i = json.getInt("count");
+                        if(i>0){
+                            loginAPI.getDairys(sharedPreferenceServices.GetAuthToken(context)).enqueue(new Callback<List<Dairy.ServerDairy>>() {
+                                @Override
+                                public void onResponse(Call<List<Dairy.ServerDairy>> call, Response<List<Dairy.ServerDairy>> response) {
+                                    if(response.isSuccessful()){
+                                        list.setValue(response.body());
+                                    }
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<List<Dairy.ServerDairy>> call, Throwable t) {
+                                    Toast.makeText(context,"PLease Try Again",Toast.LENGTH_SHORT).show();
+
+                                }
+                            });
+                        }else {
+                            responcecode.setValue(200);
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(context,"PLease Try Again",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+    }
+
+
 
 }

@@ -7,27 +7,111 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.home.HomeFragment"
-        android:layout_margin="10dp"
-        android:background="@color/white"
-        android:foreground="@drawable/bottom_start_sharp_bg">
+        android:background="?android:attr/colorBackground"
+        android:nestedScrollingEnabled="true"
+        android:layout_height="match_parent">
 
+
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:nestedScrollingEnabled="true"
+            android:clipChildren="true"
+            android:fitsSystemWindows="true"
+            >
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+                android:fitsSystemWindows="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                app:elevation="0dp"
+                app:liftOnScroll="false"
+                android:overScrollMode="always"
+                android:background="@color/transparent"
+                >
+
+
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:overScrollMode="never"
+            app:liftOnScroll="false"
+            app:elevation="0dp"
+            android:fitsSystemWindows="true"
+            android:layoutMode="clipBounds"
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:clipChildren="true"
+                    app:stackFromEnd="true"
+                    android:layout_margin="20dp"
+                    android:id="@+id/recycler_ho"
+                    android:orientation="horizontal"
+                    android:lineSpacingExtra="20dp"
+                    android:lineSpacingMultiplier="20"
+                    app:layout_marginBaseline="20dp"
+                    app:barrierMargin="20dp"
+                    app:spanCount="20"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:isScrollContainer="true"
+                    tools:listitem="@layout/year_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+            </LinearLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <LinearLayout
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipChildren="true"
+                android:paddingVertical="15dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/bottom_start_sharp_bg"
+                >
+                <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                    android:id="@+id/refresh_layout"
+                    android:layout_width="match_parent"
+                    android:clipChildren="true"
+                    android:layout_height="wrap_content"
+                    >
         <androidx.recyclerview.widget.RecyclerView
             android:lineSpacingExtra="20dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:lineSpacingMultiplier="20"
             app:barrierMargin="20dp"
+            android:nestedScrollingEnabled="true"
             app:layout_marginBaseline="20dp"
             tools:listitem="@layout/dairy_item"
             android:id="@+id/recycler"
             android:layout_margin="5dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                </LinearLayout>
+
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+    </LinearLayout>
 </layout>

@@ -17,6 +17,12 @@ public class UserModel {
         public Login(){
 
         }
+
+        public Login(String password, String email) {
+            Password = password;
+            Email = email;
+        }
+
         public String getPassword() {
             return Password;
         }
@@ -84,7 +90,7 @@ public class UserModel {
     private String Password="";
 
     @Expose
-    @SerializedName("accestoken")
+    @SerializedName("accessToken")
     private String authToken="";
     @Expose
     @SerializedName("refreshToken")
