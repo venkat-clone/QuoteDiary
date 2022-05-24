@@ -51,7 +51,6 @@ public class LoginActivity extends AppCompatActivity {
         binding.setClickHandler(new ClickHandlers());
         viewModel.DownloadResponce.setValue(100);
         dairyRepository = new DairyRepository(getApplication());
-        loginRepository.Login(new UserModel.Login("venkey@123","venkey1single@gmail.com"),viewModel.loginresponce);
         Observer();
     }
 
