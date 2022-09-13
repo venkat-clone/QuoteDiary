@@ -8,6 +8,7 @@ Dairy app with build in Wallpapers and Quotes. User can set any Wallpaper from t
 ### preview
 ![Presentations are communication tools that can be used as demonstrations, lectures, speeches, reports, and more  (7)](https://user-images.githubusercontent.com/51732590/189871815-bc81d1e0-9b79-4a84-9901-842becfc6071.png)
 
+#### Download App from [hear](https://github.com/venkat-clone/QuoteDiary/blob/master/release/app-release.apk)
 
 ## Keywords
 
