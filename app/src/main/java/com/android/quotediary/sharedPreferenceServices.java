@@ -32,6 +32,18 @@ public class sharedPreferenceServices {
     public static void SetRefreshToken(Context context,String AuthToken){
         context.getSharedPreferences(SharedKey,Context.MODE_PRIVATE).edit().putString("RefreshToken",AuthToken).apply();
     }
+    public static String GetEmail(Context context){
+        return context.getSharedPreferences(SharedKey,Context.MODE_PRIVATE).getString("Email","null");
+    }
+    public static void SetEmail(Context context,String AuthToken){
+        context.getSharedPreferences(SharedKey,Context.MODE_PRIVATE).edit().putString("Email",AuthToken).apply();
+    }
+    public static String GetUID(Context context){
+        return context.getSharedPreferences(SharedKey,Context.MODE_PRIVATE).getString("U_ID","null");
+    }
+    public static void SetUID(Context context,String AuthToken){
+        context.getSharedPreferences(SharedKey,Context.MODE_PRIVATE).edit().putString("U_ID",AuthToken).apply();
+    }
 
 //    public static void putTextStyle(DataModelOther.finalQuote Quote,Context context){
 //        context.getSharedPreferences(SharedKey,Context.MODE_PRIVATE).edit().putString("Quote",Quote.getQuote())

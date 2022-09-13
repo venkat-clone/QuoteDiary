@@ -49,6 +49,7 @@ public class DairyRepository {
                 new Runnable(){
                 public void run(){
             for (Dairy.ServerDairy dairy:list) {
+                Log.i("dairy",dairy+"");
                 dairyDao.insert(new DairyEntity(dairy.getDay(),dairy.getId(),dairy.getYear(), dairy.getContent()));
                 if(!dairyDao.hasYear(dairy.getYear())) dairyDao.insert(new DairyEntity.Year(dairy.getYear()));
             }
@@ -148,6 +149,7 @@ public class DairyRepository {
                     dairyDao.insert(dairyEntity);
                 else
                     dairyDao.updateDairy(dairy.getYear(),dairy.getDay(), dairy.getContent());
+                dbResponse.postValue(true);
             }catch (Exception e){
                 e.printStackTrace();
             }

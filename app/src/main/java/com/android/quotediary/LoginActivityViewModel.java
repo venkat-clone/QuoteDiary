@@ -14,7 +14,7 @@ public class LoginActivityViewModel extends ViewModel {
     public MutableLiveData<Integer> ErrorCode;
     public MutableLiveData<String> ErrorMessage;
     public MutableLiveData<UserModel> usermodel;
-    public MutableLiveData<Integer> loginresponce;
+
     public MutableLiveData<Integer> DownloadResponce;
     public MutableLiveData<List<Dairy.ServerDairy>> DairyList;
 
@@ -25,7 +25,7 @@ public class LoginActivityViewModel extends ViewModel {
         ErrorCode = new MutableLiveData<>();
         ErrorMessage = new MutableLiveData<>("");
         usermodel = new MutableLiveData<>();
-        loginresponce = new MutableLiveData<>();
+
         DownloadResponce = new MutableLiveData<>();
     }
 

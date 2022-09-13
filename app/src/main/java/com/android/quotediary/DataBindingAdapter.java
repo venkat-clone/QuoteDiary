@@ -50,10 +50,10 @@ public class DataBindingAdapter {
         Log.i("MYADAPTER","NO WORK DONE HAER");
         switch (s){
             case 1:
-                textView.setText(Html.fromHtml("New User? <font color='00B7FF'>Register</font>"),TextView.BufferType.SPANNABLE);
+                textView.setText(Html.fromHtml("New User? <font color='#00B7FF'>Register</font>"),TextView.BufferType.SPANNABLE);
                 break;
             case 2:
-                textView.setText(Html.fromHtml("AlReady Have Account? <font color='00B7FF'>LogIn</font>"),TextView.BufferType.SPANNABLE);
+                textView.setText(Html.fromHtml("AlReady Have Account? <font color='#00B7FF'>LogIn</font>"),TextView.BufferType.SPANNABLE);
                 break;
         }
 

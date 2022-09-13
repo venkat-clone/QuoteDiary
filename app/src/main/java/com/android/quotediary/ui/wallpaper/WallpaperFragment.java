@@ -2,31 +2,28 @@ package com.android.quotediary.ui.wallpaper;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Build;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
+
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AbsListView;
-import android.widget.TextView;
-import android.widget.Toast;
+
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
-import androidx.core.widget.NestedScrollView;
-import androidx.databinding.adapters.SearchViewBindingAdapter;
+
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.android.quotediary.MainActivity;
+
 import com.android.quotediary.R;
 import com.android.quotediary.databinding.FragmentWallpaperBinding;
 import com.android.quotediary.models.DataModelOther;
@@ -58,18 +55,15 @@ public class WallpaperFragment extends Fragment {
     }
 
     void Observers(){
-        binding.swipelayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mViewModel.page =0;
-                if(mViewModel.query.getValue()==null ){
-                    mViewModel.LoadMore();
-                }
-                else mViewModel.saerchWall();
-                wallpaperAdapter.initialize();
-                mViewModel.isLoading.setValue(true);
-                binding.swipelayout.setRefreshing(false);
+        binding.swipelayout.setOnRefreshListener(() -> {
+            mViewModel.page =0;
+            if(mViewModel.query.getValue()==null ){
+                mViewModel.LoadMore();
             }
+            else mViewModel.saerchWall();
+            wallpaperAdapter.initialize();
+            mViewModel.isLoading.setValue(true);
+            binding.swipelayout.setRefreshing(false);
         });
         binding.recyclerWallpaper.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -84,14 +78,11 @@ public class WallpaperFragment extends Fragment {
                 super.onScrollStateChanged(recyclerView, newState);
             }
         });
-        binding.searchLayout.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                mViewModel.page =0;
-                mViewModel.query = new MutableLiveData<>();
-                mViewModel.LoadMore();
-                return false;
-            }
+        binding.searchLayout.setOnCloseListener(() -> {
+            mViewModel.page =0;
+            mViewModel.query = new MutableLiveData<>();
+            mViewModel.LoadMore();
+            return false;
         });
         binding.searchLayout.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -115,30 +106,24 @@ public class WallpaperFragment extends Fragment {
             }
         });
 
-        mViewModel.wallpapers.observe(getViewLifecycleOwner(), new Observer<List<DataModelOther.Wallpaper>>() {
-            @Override
-            public void onChanged(List<DataModelOther.Wallpaper> wallpapers) {
-                binding.swipelayout.setRefreshing(false);
-                if(wallpapers!=null && wallpapers.size()!=0){
-                    wallpaperAdapter.update(wallpapers);
-                }
-                else if(wallpapers!=null){
-                    mViewModel.page =-1;
-                }
-                mViewModel.isLoading.setValue(false);
+        mViewModel.wallpapers.observe(getViewLifecycleOwner(), wallpapers -> {
+            binding.swipelayout.setRefreshing(false);
+            if(wallpapers!=null && wallpapers.size()!=0){
+                wallpaperAdapter.update(wallpapers);
             }
+            else if(wallpapers!=null){
+                mViewModel.page =-1;
+            }
+            mViewModel.isLoading.setValue(false);
         });
 
-        mViewModel.getSelectedWall().observe(getViewLifecycleOwner(), new Observer<DataModelOther.Wallpaper>() {
-            @Override
-            public void onChanged(DataModelOther.Wallpaper wallpaper) {
-                if(wallpaper!=null){
-                    Intent intent = new Intent(getContext(), WallPaperActivity.class);
-                    intent.putExtra("wallpaper",wallpaper.getUrl());
-                    startActivity(intent);
-                    requireActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                    mViewModel.getSelectedWall().setValue(null);
-                }
+        mViewModel.getSelectedWall().observe(getViewLifecycleOwner(), wallpaper -> {
+            if(wallpaper!=null){
+                Intent intent = new Intent(getContext(), WallPaperActivity.class);
+                intent.putExtra("wallpaper",wallpaper.getUrl());
+                startActivity(intent);
+                requireActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                mViewModel.getSelectedWall().setValue(null);
             }
         });
 
