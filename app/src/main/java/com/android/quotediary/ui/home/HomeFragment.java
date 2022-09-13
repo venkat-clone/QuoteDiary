@@ -92,6 +92,7 @@ public class HomeFragment extends Fragment {
                     progressDialog = new ProgressDialog(requireActivity());
                     progressDialog.setMessage("Dairy is Uploading...");
                     progressDialog.show();
+                    progressDialog.setCancelable(false);
                     mViewModel.updateDairy(requireContext(),dairy);
                     mViewModel.uploadToday.setValue(null);
                 }
@@ -103,16 +104,18 @@ public class HomeFragment extends Fragment {
                 if(serverDairy!=null) {
                     mViewModel.updateLoacaly(serverDairy);
                     mViewModel.serverDairy.postValue(null);
+//                    mViewModel.getDairyList();
                 }
-                if(progressDialog!=null) progressDialog.cancel();
+
             }
         });
         mViewModel.isSucessfull.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 if(aBoolean){
-                   cardViewAdapter.notifyItemChanged(cardViewAdapter.selectedPosition);
-                   mViewModel.isSucessfull.postValue(null);
+                    mViewModel.getDairyList();
+                    mViewModel.isSucessfull.postValue(false);
+                    if(progressDialog!=null) progressDialog.cancel();
                 }
             }
         });
