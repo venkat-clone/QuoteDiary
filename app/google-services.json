@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "950149262115",
+    "project_id": "dairy-app-e7f46",
+    "storage_bucket": "dairy-app-e7f46.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:950149262115:android:58a732feda4e0893b4ba96",
+        "android_client_info": {
+          "package_name": "com.android.quotediary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "950149262115-uoeb43dv78nkle1r8vma7ui8ceoclhuo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0o142ATAVwy8CMP1vCuGF_33j7FfGURM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "950149262115-uoeb43dv78nkle1r8vma7ui8ceoclhuo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,33 +1,27 @@
 package com.android.quotediary;
 
-import static com.android.quotediary.Helpers.Validators.ISEmail;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.telephony.euicc.DownloadableSubscription;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.Toast;
-
 import com.android.quotediary.Helpers.BaseClass;
 import com.android.quotediary.Helpers.Room.DairyRepository;
 import com.android.quotediary.Reterofit.Repository.LoginRepository;
 import com.android.quotediary.databinding.ActivityLoginBinding;
-import com.android.quotediary.models.Dairy;
 import com.android.quotediary.models.UserModel;
+import com.android.quotediary.ui.EmailActivity;
+import com.android.quotediary.ui.VerifyAccountActivity;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GetTokenResult;
 
-import java.util.List;
-
-import retrofit2.Retrofit;
 
 public class LoginActivity extends AppCompatActivity {
     ActivityLoginBinding binding;
@@ -40,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_login);
+
         setContentView(binding.getRoot());
         viewModel = new ViewModelProvider(this).get(LoginActivityViewModel.class);
 //        viewModel = new LoginActivityViewModel();
@@ -68,53 +63,66 @@ public class LoginActivity extends AppCompatActivity {
 //                }
 //            }
 //        });
-        viewModel.DownloadResponce.observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                switch (integer){
-                    case 200:
-                        Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                        startActivity(intent);
+        viewModel.DownloadResponce.observe(this, integer -> {
+            if (integer == 5000 || integer==200) {
+                Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                startActivity(intent);
+                dialog.cancel();
+                finish();
+            }
+            else if(dialog!=null)
+                dialog.cancel();
+        });
+        viewModel.DairyList.observe(this, serverDairies -> {
+            if(serverDairies!=null){
+                dairyRepository.insertServerResponce(serverDairies,viewModel.DownloadResponce);
+            }
+        });
+
+    }
+
+    public void getFireBaseToken(){
+
+        FirebaseAuth.getInstance().getCurrentUser().getIdToken(true)
+                .addOnSuccessListener(x-> {
+                    sharedPreferenceServices.SetLogedIn(getBaseContext(), true);
+                    Log.i("Log_token",x.getToken());
+                    dialog.setMessage("Downloading...");
+                    sharedPreferenceServices.SetLogedIn(getBaseContext(),true);
+                    loginRepository.Download(viewModel.DownloadResponce,viewModel.DairyList,x.getToken());
+
+                })
+                .addOnFailureListener(f-> {
+                    Snackbar.make(binding.getRoot(), f.getMessage() + "", Snackbar.LENGTH_LONG).show();
+                    dialog.cancel();
+                });
+    }
+
+    public void FireBaseLogin(UserModel.Login userModel){
+        dialog = new ProgressDialog(LoginActivity.this);
+        dialog.setMessage("Loading....");
+        dialog.show();
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(userModel.getEmail(), userModel.getPassword())
+                .addOnCompleteListener(s-> {
+//                    dialog.cancel();
+                    if(s.isSuccessful()){
+                        if(FirebaseAuth.getInstance().getCurrentUser().isEmailVerified())
+                            getFireBaseToken();
+                        else {
+                            startActivity(new Intent(getBaseContext(), VerifyAccountActivity.class));
+                            finish();
+                        }
+                    }
+                    else{
                         dialog.cancel();
-                        finish();
-                        break;
-                }
-            }
-        });
-        viewModel.DairyList.observe(this, new Observer<List<Dairy.ServerDairy>>() {
-            @Override
-            public void onChanged(List<Dairy.ServerDairy> serverDairies) {
-                if(serverDairies!=null){
-                    dairyRepository.insertServerResponce(serverDairies,viewModel.DownloadResponce);
-                }
-            }
-        });
-        viewModel.loginresponce.observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-
-                switch (integer){
-                    case 400:
-                        Toast.makeText(getBaseContext(),"Something Went Wrong",Toast.LENGTH_LONG).show();
-                        if(dialog!=null) dialog.cancel();
-                        break;
-                    case 404:
-                        Toast.makeText(getBaseContext(),"Invalid Email Id",Toast.LENGTH_LONG).show();
-                        if(dialog!=null) dialog.cancel();
-                        break;
-                    case 200:
-                        if(dialog!=null) dialog.setMessage("Downloading Your Dairy's");
-                        loginRepository.Download(viewModel.DownloadResponce,viewModel.DairyList);
-                        break;
-                }
-
-
-//                if(integer==404)
-//                    Toast.makeText(getBaseContext(),"Invalid Email Id",Toast.LENGTH_LONG).show();
-
-            }
-        });
-
+                        Snackbar.make(binding.getRoot(), s.getException().getMessage()+"", Snackbar.LENGTH_LONG).show();
+                    }
+                })
+                .addOnFailureListener(f->{
+                    Snackbar.make(binding.getRoot(),f.getMessage()+"",Snackbar.LENGTH_LONG).show();
+                    dialog.cancel();
+                    Log.i("Login response",f.getMessage());
+                });
     }
 
 
@@ -130,16 +138,21 @@ public class LoginActivity extends AppCompatActivity {
             else if(!BaseClass.isNetworkConnected(LoginActivity.this))
                 Toast.makeText(getBaseContext(),"Please Check Your Internet Connection",Toast.LENGTH_LONG).show();
             else {
-                dialog = new ProgressDialog(LoginActivity.this);
-                dialog.setMessage("Loading....");
-                dialog.show();
-                loginRepository.Login(userModel,viewModel.loginresponce);
+
+                FireBaseLogin(userModel);
+//                loginRepository.Login(userModel,viewModel.loginresponce);
             }
 
         }
 
         public void SignUp(View view){
             Intent intent = new Intent(getBaseContext(),RegisterUserActivity.class);
+            startActivity(intent);
+        }
+
+        public void forgotPass(View v){
+            Intent intent = new Intent(getBaseContext(), EmailActivity.class);
+            intent.putExtra(EmailActivity.ACTIVITY_MODE,EmailActivity.MODE_PASSWORD_RESET);
             startActivity(intent);
         }
 

@@ -10,6 +10,8 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 
 import com.android.quotediary.Helpers.BaseClass;
+import com.android.quotediary.ui.VerifyAccountActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 @SuppressLint("CustomSplashScreen")
 public class SplashScreenActivity extends AppCompatActivity {
@@ -24,31 +26,39 @@ public class SplashScreenActivity extends AppCompatActivity {
         BaseClass.DeviceHeight = displayMetrics.heightPixels;
         BaseClass.DeviceWidth = displayMetrics.widthPixels;
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(sharedPreferenceServices.IsFirstRun(getBaseContext())){
-                    Log.i("Splash Screen","First Run");
-                    Intent i = new Intent(SplashScreenActivity.this, LoginActivity.class);
-                    startActivity(i);
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                    finish();
-                }
-                else if(sharedPreferenceServices.IsLogedIn(getBaseContext())){
-                    Intent i = new Intent(SplashScreenActivity.this, MainActivity.class);
-                    startActivity(i);
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                    finish();
-                    Log.i("Splash Screen","LogedIn");
+        new Handler().postDelayed(() -> {
 
-                }
-                else{
-                    Log.i("Splash Screen","Else ");
-                    Intent i = new Intent(SplashScreenActivity.this, MainActivity.class);
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                    startActivity(i);
-                    finish();
-                }
+            if(FirebaseAuth.getInstance().getCurrentUser()==null){
+                // Login Activity
+                Log.i("Splash Screen","First Run");
+                Intent i = new Intent(SplashScreenActivity.this, LoginActivity.class);
+                startActivity(i);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                finish();
+            }
+            else if(FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()){
+                // Main Activity
+                Log.i("Splash Screen","First Run");
+                Intent i = new Intent(SplashScreenActivity.this, MainActivity.class);
+                startActivity(i);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                finish();
+            }
+            else if(!FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()){
+                // VerifyActivity
+                Log.i("Splash Screen","First Run");
+                Intent i = new Intent(SplashScreenActivity.this, VerifyAccountActivity.class);
+                startActivity(i);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                finish();
+            }
+            else {
+                // Login Activity
+                Log.i("Splash Screen","First Run");
+                Intent i = new Intent(SplashScreenActivity.this, LoginActivity.class);
+                startActivity(i);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                finish();
             }
         }, 300);
     }

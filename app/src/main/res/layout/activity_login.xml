@@ -20,10 +20,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:viewBindingIgnore="true"
         tools:context=".LoginActivity">
 
         <ImageView
+
             android:id="@+id/imageView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -104,11 +104,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="15dp"
                         app:endIconMode="password_toggle"
+                        app:endIconCheckable="true"
                         android:tag="password"
                         android:hint="Password">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:text="@={Usermodel.Password}"
+                            android:inputType="textPassword"
                             android:maxLines="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -136,17 +138,19 @@
                 </RelativeLayout>
 
                 <TextView
+                    android:onClick="@{clickHandler::forgotPass}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_margin="18dp"
-                    android:text="forgot Email/Password?"
+                    android:text="forgot Password?"
                     android:textColor="#1976D2" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
 
         <com.google.android.material.checkbox.MaterialCheckBox
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
@@ -188,14 +192,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/materialCardView"
             app:layout_constraintVertical_bias="0.79"
-            android:onClick="@{(view) -> clickHandler.SignUp(view)}"
+            android:onClick="@{clickHandler::SignUp}"
             >
 
             <TextView
-                app:setnewUsertext="@{1}"
+                setnewUsertext="@{1}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New User? SignIn" />
+                />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

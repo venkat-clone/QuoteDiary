@@ -155,8 +155,8 @@ public class QuotesFragment extends Fragment {
 
                     }
                     WallpaperManager wallpaperManager = WallpaperManager.getInstance(requireContext());
-                    if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(requireActivity(),new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},120);
+                    if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(requireActivity(),new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},120);
                         return;
                     }
                     binding.maincard.setBackground(wallpaperManager.getDrawable().getCurrent());

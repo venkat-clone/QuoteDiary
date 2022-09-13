@@ -52,6 +52,9 @@ public class UserModel {
         @Expose
         @SerializedName("password")
         private String Password="";
+        @Expose
+        @SerializedName("UserId")
+        private String UserId="";
 
         public String getUname() {
             return Uname;
@@ -77,6 +80,13 @@ public class UserModel {
             Password = password;
         }
 
+        public String getUserId() {
+            return UserId;
+        }
+
+        public void setUserId(String userId) {
+            UserId = userId;
+        }
     }
 
     @Expose
@@ -95,6 +105,9 @@ public class UserModel {
     @Expose
     @SerializedName("refreshToken")
     private String RefreshToken="";
+    @Expose
+    @SerializedName("_id")
+    private String _Id="";
 
 
     public UserModel() {
@@ -148,5 +161,11 @@ public class UserModel {
         RefreshToken = refreshToken;
     }
 
+    public String get_Id() {
+        return _Id;
+    }
 
+    public void set_Id(String _Id) {
+        this._Id = _Id;
+    }
 }

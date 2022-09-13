@@ -18,8 +18,13 @@ public interface LoginAPI {
     Call<UserModel> Login(@Body UserModel.Login userModel);
     @POST("/auth/register")
     Call<UserModel> SignUp(@Body UserModel.Register userModel);
-    @GET("auth//user/dairyscount")
+    @POST("/auth/create/user")
+    Call<UserModel> CreateUser(@Header("Authorization") String getAuthToken,@Body UserModel.Register userModel);
+    @GET("auth/user/dairyscount")
     Call<ResponseBody> getDairyCount(@Header("Authorization") String auth);
     @GET("/auth/user/dairys")
     Call<List<Dairy.ServerDairy>> getDairys(@Header("Authorization") String getAuthToken);
+    @GET("/auth/user/dairys")
+    Call<UserModel> sendMail(@Body UserModel uModel);
+
 }

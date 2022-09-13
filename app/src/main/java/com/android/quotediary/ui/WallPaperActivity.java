@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.app.WallpaperManager;
 import android.app.usage.ExternalStorageStats;
 import android.content.Context;
@@ -35,6 +36,7 @@ import com.android.quotediary.models.DataModelOther;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -47,6 +49,8 @@ public class WallPaperActivity extends AppCompatActivity {
     ActivityWallPaperBinding binding;
     Bitmap bitmap;
     String url;
+    boolean applied = false;
+    boolean downloaded = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         binding = ActivityWallPaperBinding.inflate(getLayoutInflater());
@@ -85,10 +89,15 @@ public class WallPaperActivity extends AppCompatActivity {
 
 
         public void ApplyWallpaper(View view){
+            if(applied) {
+                Toast.makeText(getBaseContext(),"WallPaper Already Applied ",Toast.LENGTH_LONG).show();
+                return;
+            }
             final WallpaperManager wallpaperManager = WallpaperManager.getInstance(getApplicationContext());
             try {
                 wallpaperManager.setBitmap(binding.image.getDrawingCache());
-                Toast.makeText(getBaseContext(),"WallPaper Applied Sucessfully ",Toast.LENGTH_LONG).show();
+                applied = true;
+                Toast.makeText(getBaseContext(),"WallPaper Applied Successfully ",Toast.LENGTH_LONG).show();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -119,10 +128,17 @@ public class WallPaperActivity extends AppCompatActivity {
     }
 
     public void DownloadImage(Context context, String url){
-        if (ActivityCompat.checkSelfPermission(WallPaperActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(WallPaperActivity.this,new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},120);
+        if(downloaded){
+            Snackbar.make(binding.getRoot(),"Wallpaper Already Downloaded",Snackbar.LENGTH_LONG).show();
+            return ;
         }
-
+        if (ActivityCompat.checkSelfPermission(WallPaperActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(WallPaperActivity.this,new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},120);
+            return;
+        }
+        ProgressDialog d = new ProgressDialog(this);
+        d.setMessage("Downloading...");
+        d.show();
         Glide.with(context)
                 .as(Bitmap.class)
                 .load(url)
@@ -144,9 +160,11 @@ public class WallPaperActivity extends AppCompatActivity {
                             fos = new FileOutputStream(myImageFile);
                             resource.compress(Bitmap.CompressFormat.JPEG, 100, fos);
                             sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" +dir.getPath())));
+                            d.cancel();
                             Toast.makeText(context,"Successfully Downloaded Wallpaper",Toast.LENGTH_SHORT).show();
-                        } catch (IOException e) {
+                        }catch (IOException e) {
                             e.printStackTrace();
+                            d.cancel();
                         } finally {
                             try {
                                 if(fos!=null) fos.close();

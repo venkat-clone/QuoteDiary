@@ -14,8 +14,11 @@
         <item name="bottomNavigationStyle">@style/Widget.App.BottomNavigationView</item>
         <!-- Status bar color. -->
 
-        <item name="android:statusBarColor" tools:targetApi="l">?android:attr/windowBackground</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="android:statusBarColor" tools:targetApi="l">#00000000</item>
+<!--        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>-->
+<!--        <item name="android:windowTranslucentStatus">true</item>-->
+        <item name="android:windowTranslucentNavigation">true</item>
+
         <item name="textInputStyle">@style/TextInputLayout.style</item>
         <item name="android:textColorPrimaryDisableOnly">@color/white</item>
         <!-- Customize your theme here. -->

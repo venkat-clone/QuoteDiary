@@ -4,6 +4,7 @@ import android.hardware.lights.LightState;
 
 import com.android.quotediary.models.Dairy;
 import com.android.quotediary.models.DataModelOther;
+import com.android.quotediary.models.UserModel;
 
 import java.util.List;
 
@@ -33,5 +34,8 @@ public interface UserAPI {
     Call<Dairy.ServerDairy> postDairy(@Header("Authorization") String auth,@Body Dairy.ServerDairy serverDairy);
     @POST("/auth/updatedairy")
     Call<Dairy.ServerDairy> updateDairy(@Header("Authorization") String auth,@Body Dairy.ServerDairy serverDairy);
+
+    @POST("/auth/refresh-token")
+    Call<UserModel> RefreshToken(@Body UserModel getAuthToken);
 
 }
