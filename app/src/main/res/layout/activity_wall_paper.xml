@@ -46,6 +46,7 @@
             android:elevation="10dp"
             android:onClick="@{ClickHandler::shareWallpaper}"
             app:tint="@color/white"
+            android:tint="@color/white"
             android:src="@drawable/share"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

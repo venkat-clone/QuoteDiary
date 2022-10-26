@@ -4,6 +4,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('/home/venkey/Android/venkey.jks')
+            storePassword 'venkey'
+            keyAlias 'key0'
+            keyPassword 'venkey'
+        }
+    }
     compileSdk 31
 
     defaultConfig {
@@ -57,6 +65,7 @@ dependencies {
     implementation 'com.squareup.okhttp:okhttp:2.7.5'
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
     implementation 'com.google.firebase:firebase-auth:19.2.0'
+    implementation 'com.google.firebase:firebase-storage:20.0.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     implementation "com.airbnb.android:lottie:3.4.0"
     // for Room lib

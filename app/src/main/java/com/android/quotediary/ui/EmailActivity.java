@@ -6,7 +6,9 @@ import androidx.databinding.DataBindingUtil;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
+import android.widget.Toast;
 
 import com.android.quotediary.LoginActivity;
 import com.android.quotediary.R;
@@ -56,6 +58,10 @@ public class EmailActivity extends AppCompatActivity {
             finish();
         }
         public void sendEmail(View v){
+            if(binding.email.getText()== null || !Patterns.EMAIL_ADDRESS.matcher(binding.email.getText()).matches()){
+                Toast.makeText(getBaseContext(), "please Enter a Valid email", Toast.LENGTH_SHORT).show();
+                return;
+            }
             FirebaseUser user  =FirebaseAuth.getInstance().getCurrentUser();
             if(Mode.equals(MODE_PASSWORD_RESET)){
                 FirebaseAuth.getInstance().sendPasswordResetEmail(binding.email.getText().toString())

@@ -129,13 +129,14 @@ public class LoginRepository {
                             responcecode.setValue(5000);
                         }
 
-                    } catch (JSONException e) {
-                        Toast.makeText(context,"PLease Try Again",Toast.LENGTH_SHORT).show();
-                        e.printStackTrace();
-                    } catch (IOException e) {
+                    } catch (JSONException | IOException e) {
+                        responcecode.setValue(400);
                         Toast.makeText(context,"PLease Try Again",Toast.LENGTH_SHORT).show();
                         e.printStackTrace();
                     }
+                }else{
+                    responcecode.setValue(400);
+                    Toast.makeText(context,"PLease Try Again",Toast.LENGTH_SHORT).show();
                 }
             }
 

@@ -88,6 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                     sharedPreferenceServices.SetLogedIn(getBaseContext(), true);
                     Log.i("Log_token",x.getToken());
                     dialog.setMessage("Downloading...");
+
                     sharedPreferenceServices.SetLogedIn(getBaseContext(),true);
                     loginRepository.Download(viewModel.DownloadResponce,viewModel.DairyList,x.getToken());
 
@@ -100,6 +101,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void FireBaseLogin(UserModel.Login userModel){
         dialog = new ProgressDialog(LoginActivity.this);
+        dialog.setCancelable(false);
         dialog.setMessage("Loading....");
         dialog.show();
         FirebaseAuth.getInstance().signInWithEmailAndPassword(userModel.getEmail(), userModel.getPassword())

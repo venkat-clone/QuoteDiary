@@ -211,7 +211,7 @@ public class UserRepository {
                     addOnSuccessListener(successListener)
                     .addOnFailureListener(
                             f->{
-                        Toast.makeText(context,f.getMessage()+"",Toast.LENGTH_LONG).show();
+//                        Toast.makeText(context,f.getMessage()+"",Toast.LENGTH_LONG).show();
                         Log.i("Token Result",f.getMessage());
                         f.printStackTrace();
                     });
