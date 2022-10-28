@@ -254,19 +254,19 @@ public class HomeFragment extends Fragment {
                 "https://pixabay.com/get/g30dda0675dd5ec0cc83089fba54b1050232c888b4d9bd244328dfd32e0aebaa6ae78b9c2188c17072cde527f9e4efe9860328221e2011df3243e0860be0aaf75_1280.jpg"        };
         static String[] sWallpaper = new String[]{
 
-                "https://pixabay.com/get/g14d09e195ac9b98e1352bd694de6159e9d275859c6f2938b4e2af9bc1d05dca9e35952bc7feca78a9361f0f3caf68e92715f5e84296cda8136a4db23e76dd476_1280.jpg",
-                "https://pixabay.com/get/g87f1a49eb59d837fe393016d76112e3dc617e678c51ac6951e61ab10b078c479a1fe78f2e493a1c759573dff62780bf22a630a629350a6179b1213188ee6064d_1280.jpg",
-                "https://pixabay.com/get/g30dda0675dd5ec0cc83089fba54b1050232c888b4d9bd244328dfd32e0aebaa6ae78b9c2188c17072cde527f9e4efe9860328221e2011df3243e0860be0aaf75_1280.jpg"
+                "https://firebasestorage.googleapis.com/v0/b/dairy-app-e7f46.appspot.com/o/wallpapers%2FSad%2Fhappy_0.jpeg?alt=media&token=8cb188fb-df14-4c76-a139-4caddd3cb51d",
+                "https://firebasestorage.googleapis.com/v0/b/dairy-app-e7f46.appspot.com/o/wallpapers%2FSad%2Fhappy_1.jpeg?alt=media&token=8cb188fb-df14-4c76-a139-4caddd3cb51d",
+                "https://firebasestorage.googleapis.com/v0/b/dairy-app-e7f46.appspot.com/o/wallpapers%2FSad%2Fhappy_2.jpeg?alt=media&token=8cb188fb-df14-4c76-a139-4caddd3cb51d"
         };
         static String[] aWallpaper = new String[]{
-                "https://pixabay.com/get/g14d09e195ac9b98e1352bd694de6159e9d275859c6f2938b4e2af9bc1d05dca9e35952bc7feca78a9361f0f3caf68e92715f5e84296cda8136a4db23e76dd476_1280.jpg",
-                "https://pixabay.com/get/g87f1a49eb59d837fe393016d76112e3dc617e678c51ac6951e61ab10b078c479a1fe78f2e493a1c759573dff62780bf22a630a629350a6179b1213188ee6064d_1280.jpg",
-                "https://pixabay.com/get/g30dda0675dd5ec0cc83089fba54b1050232c888b4d9bd244328dfd32e0aebaa6ae78b9c2188c17072cde527f9e4efe9860328221e2011df3243e0860be0aaf75_1280.jpg"
+                "https://firebasestorage.googleapis.com/v0/b/dairy-app-e7f46.appspot.com/o/wallpapers%2Fangry%2FPatience_1.jpg?alt=media&token=1485c56a-0453-4ddb-8376-95a37d1733b8",
+                "https://firebasestorage.googleapis.com/v0/b/dairy-app-e7f46.appspot.com/o/wallpapers%2Fangry%2FPatience_2.jpg?alt=media&token=1485c56a-0453-4ddb-8376-95a37d1733b8",
+                "https://firebasestorage.googleapis.com/v0/b/dairy-app-e7f46.appspot.com/o/wallpapers%2Fangry%2FPatience_3.jpg?alt=media&token=1485c56a-0453-4ddb-8376-95a37d1733b8",
         };
         static String[] fWallpaper = new String[]{
-                "https://pixabay.com/get/g14d09e195ac9b98e1352bd694de6159e9d275859c6f2938b4e2af9bc1d05dca9e35952bc7feca78a9361f0f3caf68e92715f5e84296cda8136a4db23e76dd476_1280.jpg",
-                "https://pixabay.com/get/g87f1a49eb59d837fe393016d76112e3dc617e678c51ac6951e61ab10b078c479a1fe78f2e493a1c759573dff62780bf22a630a629350a6179b1213188ee6064d_1280.jpg",
-                "https://pixabay.com/get/g30dda0675dd5ec0cc83089fba54b1050232c888b4d9bd244328dfd32e0aebaa6ae78b9c2188c17072cde527f9e4efe9860328221e2011df3243e0860be0aaf75_1280.jpg"
+                "https://firebasestorage.googleapis.com/v0/b/dairy-app-e7f46.appspot.com/o/wallpapers%2Ffear%2Ffear_1.jpg?alt=media&token=2f042048-f2ff-40d8-844b-c86214c152f6",
+                "https://firebasestorage.googleapis.com/v0/b/dairy-app-e7f46.appspot.com/o/wallpapers%2Ffear%2Ffear_2.jpg?alt=media&token=2f042048-f2ff-40d8-844b-c86214c152f6",
+                "https://firebasestorage.googleapis.com/v0/b/dairy-app-e7f46.appspot.com/o/wallpapers%2Ffear%2Ffear_3.jpg?alt=media&token=2f042048-f2ff-40d8-844b-c86214c152f6"
         };
         static String[] supWallpaper = new String[]{
                 "https://pixabay.com/get/g14d09e195ac9b98e1352bd694de6159e9d275859c6f2938b4e2af9bc1d05dca9e35952bc7feca78a9361f0f3caf68e92715f5e84296cda8136a4db23e76dd476_1280.jpg",
